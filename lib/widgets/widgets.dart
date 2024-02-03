@@ -72,6 +72,92 @@ Widget buildMemberInfoCard(BuildContext context, member) => SizedBox(
       ),
     );
 
+Widget buildOrderInfoCard(BuildContext context, order, {String? maintenanceContract}) {
+  return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 60,
+            child: ListTile(
+              title: Text('${order.orderName} (${order.customerId})',
+                  style: const TextStyle(fontWeight: FontWeight.w500)),
+              subtitle: Text(
+                  '${order.orderAddress}\n${order.orderCountryCode}-${order.orderPostal}\n${order.orderCity}'),
+              leading: Icon(
+                Icons.home,
+                color: Colors.blue[500],
+              ),
+            ),
+          ),
+          if (order.orderTel != null && order.orderTel != '')
+            SizedBox(
+                height: 30,
+                child: ListTile(
+                  title: Text('${order.orderTel}',
+                      style: const TextStyle(fontWeight: FontWeight.w500)),
+                  leading: Icon(
+                    Icons.contact_phone,
+                    color: Colors.blue[500],
+                  ),
+                  onTap: () {
+                    if (order.orderTel != '' && order.orderTel != null) {
+                      coreUtils.launchURL("tel://${order.orderTel}");
+                    }
+                  },
+                )),
+          if (order.orderMobile != null && order.orderMobile != '')
+            SizedBox(
+              height: 46,
+              child: ListTile(
+                title: Text('${order.orderMobile}',
+                    style: const TextStyle(fontWeight: FontWeight.w500)),
+                leading: Icon(
+                  Icons.send_to_mobile,
+                  color: Colors.blue[500],
+                ),
+                onTap: () {
+                  if (order.orderMobile != '' && order.orderMobile != null) {
+                    coreUtils.launchURL("tel://${order.orderMobile}");
+                  }
+                },
+              ),
+            ),
+          const SizedBox(height: 10),
+          getMy24Divider(context),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ...buildItemListKeyValueList(
+                  "${getTranslationTr('orders.info_order_id', null)} / ${getTranslationTr('orders.info_order_reference', null)}",
+                  "${order.orderId} / ${order.orderReference ?? '-'}"),
+              ...buildItemListKeyValueList(
+                  "${getTranslationTr('orders.info_order_type', null)} / ${getTranslationTr('orders.info_order_date', null)}",
+                  "${order.orderType} / ${order.orderDate}"),
+              ...buildItemListKeyValueList(
+                  "${getTranslationTr('customers.info_contact', null)}",
+                  "${order.orderContact ?? '-'}"),
+              if (order.orderEmail != null && order.orderEmail != '')
+                ...buildItemListKeyValueList(
+                    "${getTranslationTr('orders.info_order_email', null)}",
+                    "${order.orderEmail}"),
+              if (order.customerRemarks != null && order.customerRemarks != '')
+                ...buildItemListKeyValueList(
+                    "${getTranslationTr('orders.info_order_customer_remarks', null)}",
+                    "${order.customerRemarks}"),
+              if (maintenanceContract != null)
+                ...buildItemListKeyValueList(
+                    "${getTranslationTr('assigned_orders.detail.info_maintenance_contract', null)}",
+                    maintenanceContract),
+              ...buildItemListKeyValueList(
+                  "${getTranslationTr('orders.info_last_status', null)}",
+                  "${order.lastStatusFull}"),
+            ],
+          ),
+        ],
+      ));
+}
+
 Widget buildEmptyListFeedback({String? noResultsString}) {
   noResultsString ??= getTranslationTr('generic.empty_table', null);
 
