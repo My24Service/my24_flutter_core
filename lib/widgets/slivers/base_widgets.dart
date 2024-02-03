@@ -6,18 +6,20 @@ import 'app_bars.dart';
 
 abstract class BaseSliverPlainStatelessWidget extends StatelessWidget {
   final String? mainMemberPicture;
+  final Function mainTransFunc;
 
   // base class for forms, errors, empty
   const BaseSliverPlainStatelessWidget({
     Key? key,
     required this.mainMemberPicture,
+    required this.mainTransFunc
   }) : super(key: key);
 
   Widget getContentWidget(BuildContext context);
   Widget getBottomSection(BuildContext context);
 
   String getAppBarTitle(BuildContext context) {
-    return 'app_bar_title';
+    return mainTransFunc('app_bar_title');
   }
 
   String getAppBarSubtitle(BuildContext context) {
@@ -63,12 +65,14 @@ abstract class BaseSliverPlainStatelessWidget extends StatelessWidget {
 abstract class BaseSliverListStatelessWidget extends StatelessWidget {
   final PaginationInfo? paginationInfo;
   final String? memberPicture;
+  final Function transFunc;
 
   // base class for lists
   const BaseSliverListStatelessWidget({
     Key? key,
     required this.paginationInfo,
     required this.memberPicture,
+    required this.transFunc
   }) : super(key: key);
 
   void doRefresh(BuildContext context);
@@ -76,7 +80,7 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget {
   SliverList getSliverList(BuildContext context);
 
   String getAppBarTitle(BuildContext context) {
-    return 'app_bar_title';
+    return transFunc('app_bar_title');
   }
 
   String getAppBarSubtitle(BuildContext context) {
@@ -84,7 +88,7 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget {
   }
 
   String getModelName() {
-    return 'model_name';
+    return transFunc('model_name');
   }
 
   SliverList getPreSliverListContent(BuildContext context) {
@@ -144,18 +148,24 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget {
 
 abstract class BaseEmptyWidget extends BaseSliverPlainStatelessWidget {
   final String? memberPicture;
+  final Function transFunc;
 
   const BaseEmptyWidget({
     Key? key,
     required this.memberPicture,
-  }) : super(key: key, mainMemberPicture: memberPicture);
+    required this.transFunc
+  }) : super(
+      key: key,
+      mainMemberPicture: memberPicture,
+      mainTransFunc: transFunc
+  );
 
   String getEmptyMessage();
   void doRefresh(BuildContext context);
 
   @override
   String getAppBarTitle(BuildContext context) {
-    return 'app_bar_title_empty';
+    return transFunc('app_bar_title_empty');
   }
 
   @override
@@ -196,16 +206,22 @@ abstract class BaseEmptyWidget extends BaseSliverPlainStatelessWidget {
 abstract class BaseErrorWidget extends BaseSliverPlainStatelessWidget {
   final String? memberPicture;
   final String? error;
+  final Function transFunc;
 
   const BaseErrorWidget({
     Key? key,
     required this.error,
     required this.memberPicture,
-  }) : super(key: key, mainMemberPicture: memberPicture);
+    required this.transFunc
+  }) : super(
+      key: key,
+      mainMemberPicture: memberPicture,
+      mainTransFunc: transFunc
+  );
 
   @override
   String getAppBarTitle(BuildContext context) {
-    return 'app_bar_title_error';
+    return transFunc('app_bar_title_error');
   }
 
   @override
