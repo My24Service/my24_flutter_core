@@ -772,51 +772,6 @@ Widget createSubmitSection(Row buttons) {
 }
 
 // slivers
-SliverPersistentHeader makeDefaultPaginationHeader(
-    BuildContext context, PaginationInfo paginationInfo, String modelName,
-    Function transFunc) {
-  String title = "";
-  if (paginationInfo.count! > paginationInfo.pageSize!) {
-    int start =
-        ((paginationInfo.currentPage! - 1) * paginationInfo.pageSize!) + 1;
-    int? end = start + paginationInfo.pageSize! <= paginationInfo.count!
-        ? start + paginationInfo.pageSize! - 1
-        : paginationInfo.count;
-    title = transFunc("generic.pagination_more_pages", {
-      "start": "$start",
-      "end": "$end",
-      "total": "${paginationInfo.count}",
-      "modelName": modelName
-    });
-  } else {
-    int start = paginationInfo.count! > 0 ? 1 : 0;
-    int? end = paginationInfo.count;
-    title = transFunc("generic.pagination_one_page", {
-      "start": "$start",
-      "end": "$end",
-      "pageSize": "${paginationInfo.pageSize}",
-      "modelName": modelName
-    });
-  }
-
-  return SliverPersistentHeader(
-    pinned: true,
-    delegate: SliverAppBarDelegate(
-      minHeight: 26.0,
-      maxHeight: 26.0,
-      child: Container(
-          color: Theme.of(context).primaryColor,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 4.0, top: 7.0, bottom: 4.0),
-            child: Text(
-              title,
-              style:
-                  const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-            ),
-          )),
-    ),
-  );
-}
 
 // NOT USED, here as an example
 class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
