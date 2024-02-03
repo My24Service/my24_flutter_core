@@ -364,6 +364,32 @@ Widget getOrderHeaderValueWidget(String text, double fontsize) {
               color: Colors.black)));
 }
 
+Widget createOrderHistoryListSubtitle2(order,
+    Widget workorderWidget, Widget viewOrderWidget, Function transFunc) {
+  double fontsizeKey = 12.0;
+  double fontsizeValue = 16.0;
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      getOrderSubHeaderKeyWidget(
+          transFunc('orders.info_order_id', null), fontsizeKey),
+      getOrderSubHeaderValueWidget('${order.orderId}', fontsizeValue),
+      const SizedBox(height: 3),
+      getOrderSubHeaderKeyWidget(
+          transFunc('orders.info_order_type', null), fontsizeKey),
+      getOrderSubHeaderValueWidget('${order.orderType}', fontsizeValue),
+      const SizedBox(height: 3),
+      getOrderSubHeaderKeyWidget(
+          transFunc('orders.info_last_status', null), fontsizeKey),
+      getOrderSubHeaderValueWidget('${order.lastStatusFull}', fontsizeValue),
+      const SizedBox(height: 3),
+      workorderWidget,
+      viewOrderWidget
+    ],
+  );
+}
+
 Widget getOrderSubHeaderKeyWidget(String text, double fontsize) {
   return Padding(
       padding: const EdgeInsets.only(top: 1.0),
