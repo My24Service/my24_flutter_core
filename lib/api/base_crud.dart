@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import '../api/api_mixin.dart';
 import '../models/models.dart';
 import '../models/base_models.dart';
-import '../i18n_mixin.dart';
 
 
 abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with CoreApiMixin {
@@ -73,8 +72,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     }
     //print(response.body);
 
-    final String errorMsg = getTranslationTr('generic.exception_fetch', null);
-    String msg = "$errorMsg (${response.body})";
+    String msg = "fetch: (${response.body})";
 
     throw Exception(msg);
   }
@@ -101,8 +99,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
       return fromJsonDetail(json.decode(response.body));
     }
 
-    final String errorMsg = getTranslationTr('generic.exception_fetch_detail', null);
-    String msg = "$errorMsg (${response.body})";
+    String msg = "fetch detail: (${response.body})";
 
     throw Exception(msg);
   }
@@ -125,8 +122,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
       return fromJsonDetail(json.decode(response.body));
     }
 
-    final String errorMsg = getTranslationTr('generic.exception_insert', null);
-    String msg = "$errorMsg (${response.body})";
+    String msg = "insert: (${response.body})";
 
     throw Exception(msg);
   }
@@ -183,8 +179,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
       return fromJsonDetail(json.decode(response.body));
     }
 
-    final String errorMsg = getTranslationTr('generic.exception_update', null);
-    String msg = "$errorMsg (${response.body})";
+    String msg = "update: (${response.body})";
     throw Exception(msg);
   }
 
@@ -202,8 +197,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
       return true;
     }
 
-    final String errorMsg = getTranslationTr('generic.exception_delete', null);
-    String msg = "$errorMsg (${response.body})";
+    String msg = "delete: (${response.body})";
     throw Exception(msg);
   }
 
@@ -212,7 +206,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     SlidingToken? newToken = await refreshSlidingToken(client);
 
     if(newToken == null) {
-      throw Exception(getTranslationTr('generic.token_expired', null));
+      throw Exception('Token expired');
     }
 
     return newToken;

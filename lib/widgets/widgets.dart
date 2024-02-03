@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-import '../i18n_mixin.dart';
 import '../models/models.dart';
 import '../models/base_models.dart';
 import '../utils.dart';
@@ -72,7 +71,9 @@ Widget buildMemberInfoCard(BuildContext context, member) => SizedBox(
       ),
     );
 
-Widget buildOrderInfoCard(BuildContext context, order, {String? maintenanceContract}) {
+Widget buildOrderInfoCard(
+    BuildContext context, order, {String? maintenanceContract, required Function transFunc}
+  ) {
   return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -129,28 +130,28 @@ Widget buildOrderInfoCard(BuildContext context, order, {String? maintenanceContr
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ...buildItemListKeyValueList(
-                  "${getTranslationTr('orders.info_order_id', null)} / ${getTranslationTr('orders.info_order_reference', null)}",
+                  "${transFunc('orders.info_order_id', null)} / ${transFunc('orders.info_order_reference', null)}",
                   "${order.orderId} / ${order.orderReference ?? '-'}"),
               ...buildItemListKeyValueList(
-                  "${getTranslationTr('orders.info_order_type', null)} / ${getTranslationTr('orders.info_order_date', null)}",
+                  "${transFunc('orders.info_order_type', null)} / ${transFunc('orders.info_order_date', null)}",
                   "${order.orderType} / ${order.orderDate}"),
               ...buildItemListKeyValueList(
-                  "${getTranslationTr('customers.info_contact', null)}",
+                  "${transFunc('customers.info_contact', null)}",
                   "${order.orderContact ?? '-'}"),
               if (order.orderEmail != null && order.orderEmail != '')
                 ...buildItemListKeyValueList(
-                    "${getTranslationTr('orders.info_order_email', null)}",
+                    "${transFunc('orders.info_order_email', null)}",
                     "${order.orderEmail}"),
               if (order.customerRemarks != null && order.customerRemarks != '')
                 ...buildItemListKeyValueList(
-                    "${getTranslationTr('orders.info_order_customer_remarks', null)}",
+                    "${transFunc('orders.info_order_customer_remarks', null)}",
                     "${order.customerRemarks}"),
               if (maintenanceContract != null)
                 ...buildItemListKeyValueList(
-                    "${getTranslationTr('assigned_orders.detail.info_maintenance_contract', null)}",
+                    "${transFunc('assigned_orders.detail.info_maintenance_contract', null)}",
                     maintenanceContract),
               ...buildItemListKeyValueList(
-                  "${getTranslationTr('orders.info_last_status', null)}",
+                  "${transFunc('orders.info_last_status', null)}",
                   "${order.lastStatusFull}"),
             ],
           ),
@@ -158,8 +159,8 @@ Widget buildOrderInfoCard(BuildContext context, order, {String? maintenanceContr
       ));
 }
 
-Widget buildEmptyListFeedback({String? noResultsString}) {
-  noResultsString ??= getTranslationTr('generic.empty_table', null);
+Widget buildEmptyListFeedback({String? noResultsString, required Function transFunc}) {
+  noResultsString ??= transFunc('generic.empty_table', null);
 
   return Column(
     children: [
@@ -245,7 +246,7 @@ Future<dynamic> displayDialog(context, title, text) {
 }
 
 showDeleteDialogWrapper(String title, String content, Function deleteFunction,
-    BuildContext context) {
+    BuildContext context, Function transFunc) {
   // show the dialog
   showDialog(
     barrierDismissible: false,
@@ -256,10 +257,10 @@ showDeleteDialogWrapper(String title, String content, Function deleteFunction,
         content: Text(content),
         actions: [
           TextButton(
-              child: Text(getTranslationTr('coreUtils.button_cancel', null)),
+              child: Text(transFunc('coreUtils.button_cancel', null)),
               onPressed: () => Navigator.of(context).pop(false)),
           TextButton(
-              child: Text(getTranslationTr('coreUtils.button_delete', null)),
+              child: Text(transFunc('coreUtils.button_delete', null)),
               onPressed: () => Navigator.of(context).pop(true)),
         ],
       );
@@ -274,7 +275,7 @@ showDeleteDialogWrapper(String title, String content, Function deleteFunction,
 }
 
 showActionDialogWrapper(String title, String content, String actionText,
-    Function actionFunction, BuildContext context) {
+    Function actionFunction, BuildContext context, Function transFunc) {
   // show the dialog
   showDialog(
     barrierDismissible: false,
@@ -285,7 +286,7 @@ showActionDialogWrapper(String title, String content, String actionText,
         content: Text(content),
         actions: [
           TextButton(
-              child: Text(getTranslationTr('coreUtils.button_cancel', null)),
+              child: Text(transFunc('coreUtils.button_cancel', null)),
               onPressed: () => Navigator.of(context).pop(false)),
           TextButton(
               child: Text(actionText),
@@ -380,7 +381,7 @@ Widget getOrderSubHeaderValueWidget(String text, double fontsize) {
           )));
 }
 
-Widget createOrderHistoryListHeader2(String date) {
+Widget createOrderHistoryListHeader2(String date, Function transFunc) {
   double fontsizeKey = 14.0;
   double fontsizeValue = 20.0;
 
@@ -388,7 +389,7 @@ Widget createOrderHistoryListHeader2(String date) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       getOrderHeaderKeyWidget(
-          getTranslationTr('orders.info_order_date', null), fontsizeKey),
+          transFunc('orders.info_order_date', null), fontsizeKey),
       getOrderHeaderValueWidget(date, fontsizeValue),
     ],
   );
@@ -398,11 +399,13 @@ Widget buildItemsSection(BuildContext context, String header,
     List<dynamic>? items, Function itemBuilder, Function getActions,
     {String? noResultsString,
     bool withDivider = true,
-    bool withLastDivider = true}) {
+    bool withLastDivider = true,
+      required Function transFunc
+  }) {
   if (items == null || items.isEmpty) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           if (header != "") createHeader(header),
-          buildEmptyListFeedback(noResultsString: noResultsString),
+          buildEmptyListFeedback(noResultsString: noResultsString, transFunc: transFunc),
           getMy24Divider(context, last: true)
         ]);
   }
@@ -445,20 +448,20 @@ Widget buildItemListCustomWidget(String title, Widget content) {
   return Row(children: [createTableHeaderCell(title), content]);
 }
 
-Widget createCancelButton(Function onClick) {
+Widget createCancelButton(Function onClick, Function transFunc) {
   return createElevatedButtonColored(
-      getTranslationTr('generic.action_cancel', null), onClick,
+      transFunc('generic.action_cancel', null), onClick,
       backgroundColor: Colors.grey, foregroundColor: Colors.white);
 }
 
-Widget createViewButton(Function onClick) {
+Widget createViewButton(Function onClick, Function transFunc) {
   return createElevatedButtonColored(
-      getTranslationTr('generic.action_view', null), onClick,
+      transFunc('generic.action_view', null), onClick,
       backgroundColor: Colors.green, foregroundColor: Colors.white);
 }
 
-Widget createButton(Function onClick, {String? title}) {
-  title ??= getTranslationTr('generic.action_new', null);
+Widget createButton(Function onClick, {String? title, required Function transFunc}) {
+  title ??= transFunc('generic.action_new', null);
   return createElevatedButtonColored(title!, onClick,
       backgroundColor: Colors.green, foregroundColor: Colors.white);
 }
@@ -468,19 +471,19 @@ Widget createDeleteButton(String text, Function onClick) {
       foregroundColor: Colors.red, backgroundColor: Colors.white);
 }
 
-Widget createEditButton(Function onClick) {
+Widget createEditButton(Function onClick, Function transFunc) {
   return createElevatedButtonColored(
-      getTranslationTr('generic.action_edit', null), () => onClick());
+      transFunc('generic.action_edit', null), () => onClick());
 }
 
-Widget createNewButton(Function onClick) {
+Widget createNewButton(Function onClick, Function transFunc) {
   return createElevatedButtonColored(
-      getTranslationTr('generic.button_new', null), () => onClick());
+      transFunc('generic.button_new', null), () => onClick());
 }
 
-Widget createSubmitButton(Function onClick) {
+Widget createSubmitButton(Function onClick, Function transFunc) {
   return createDefaultElevatedButton(
-      getTranslationTr('generic.button_submit', null), () => onClick());
+      transFunc('generic.button_submit', null), () => onClick());
 }
 
 Widget createImagePart(String url, String text) {
@@ -506,7 +509,7 @@ Widget getTextDisabled(bool disabled, String text) {
 }
 
 Widget getSearchContainer(BuildContext context,
-    TextEditingController searchController, Function searchFunc) {
+    TextEditingController searchController, Function searchFunc, Function transFunc) {
   const double height = 40.0;
   return Container(
     height: height,
@@ -535,7 +538,7 @@ Widget getSearchContainer(BuildContext context,
                     foregroundColor: Colors.white,
                     backgroundColor: Colors.grey,
                   ),
-                  child: Text(getTranslationTr('generic.action_search', {}),
+                  child: Text(transFunc('generic.action_search', {}),
                       style: const TextStyle(color: Colors.white)),
                   onPressed: () => {searchFunc(context)})),
         ),
@@ -559,13 +562,15 @@ Widget showPaginationSearchSection(
     TextEditingController searchController,
     Function nextPageFunc,
     Function previousPageFunc,
-    Function searchFunc) {
+    Function searchFunc,
+    Function transFunc
+    ) {
   if (paginationInfo == null ||
       paginationInfo.count! <= paginationInfo.pageSize!) {
     return wrapPaginationSearchRow(Row(
       children: [
         const Spacer(),
-        getSearchContainer(context, searchController, searchFunc),
+        getSearchContainer(context, searchController, searchFunc, transFunc),
         const Spacer(),
       ],
     ));
@@ -577,16 +582,16 @@ Widget showPaginationSearchSection(
     children: [
       TextButton(
           child: getTextDisabled(paginationInfo.currentPage! <= 1,
-              getTranslationTr('generic.button_back', null)),
+              transFunc('generic.button_back', null)),
           onPressed: () => {
                 if (paginationInfo.currentPage! > 1) {previousPageFunc(context)}
               }),
       const Spacer(),
-      getSearchContainer(context, searchController, searchFunc),
+      getSearchContainer(context, searchController, searchFunc, transFunc),
       const Spacer(),
       TextButton(
           child: getTextDisabled(paginationInfo.currentPage! >= numPages,
-              getTranslationTr('generic.button_next', null)),
+              transFunc('generic.button_next', null)),
           onPressed: () => {
                 if (paginationInfo.currentPage! < numPages)
                   {nextPageFunc(context)}
@@ -602,15 +607,17 @@ Widget showPaginationSearchNewSection(
     Function nextPageFunc,
     Function previousPageFunc,
     Function searchFunc,
-    Function newFunc) {
+    Function newFunc,
+    Function transFunc
+    ) {
   if (paginationInfo == null ||
       paginationInfo.count! <= paginationInfo.pageSize!) {
     return wrapPaginationSearchRow(Row(
       children: [
         const Spacer(),
-        createNewButton(() => {newFunc(context)}),
+        createNewButton(() => {newFunc(context)}, transFunc),
         const SizedBox(width: 10),
-        getSearchContainer(context, searchController, searchFunc),
+        getSearchContainer(context, searchController, searchFunc, transFunc),
         const Spacer(),
       ],
     ));
@@ -636,9 +643,9 @@ Widget showPaginationSearchNewSection(
                 if (paginationInfo.currentPage! > 1) {previousPageFunc(context)}
               }),
       const Spacer(),
-      createNewButton(() => {newFunc(context)}),
+      createNewButton(() => {newFunc(context)}, transFunc),
       const SizedBox(width: 5),
-      getSearchContainer(context, searchController, searchFunc),
+      getSearchContainer(context, searchController, searchFunc, transFunc),
       const Spacer(),
       IconButton(
           icon: Icon(
@@ -740,7 +747,8 @@ Widget createSubmitSection(Row buttons) {
 
 // slivers
 SliverPersistentHeader makeDefaultPaginationHeader(
-    BuildContext context, PaginationInfo paginationInfo, String modelName) {
+    BuildContext context, PaginationInfo paginationInfo, String modelName,
+    Function transFunc) {
   String title = "";
   if (paginationInfo.count! > paginationInfo.pageSize!) {
     int start =
@@ -748,7 +756,7 @@ SliverPersistentHeader makeDefaultPaginationHeader(
     int? end = start + paginationInfo.pageSize! <= paginationInfo.count!
         ? start + paginationInfo.pageSize! - 1
         : paginationInfo.count;
-    title = getTranslationTr("generic.pagination_more_pages", {
+    title = transFunc("generic.pagination_more_pages", {
       "start": "$start",
       "end": "$end",
       "total": "${paginationInfo.count}",
@@ -757,7 +765,7 @@ SliverPersistentHeader makeDefaultPaginationHeader(
   } else {
     int start = paginationInfo.count! > 0 ? 1 : 0;
     int? end = paginationInfo.count;
-    title = getTranslationTr("generic.pagination_one_page", {
+    title = transFunc("generic.pagination_one_page", {
       "start": "$start",
       "end": "$end",
       "pageSize": "${paginationInfo.pageSize}",
@@ -837,23 +845,23 @@ SliverPersistentHeader makeEmptyHeader() {
 }
 
 Widget createViewWorkOrderButton(
-    String? workorderPdfUrl, BuildContext context) {
+    String? workorderPdfUrl, BuildContext context, Function transFunc) {
   if (workorderPdfUrl != null && workorderPdfUrl != '') {
     return createDefaultElevatedButton(
-        getTranslationTr('generic.button_open_workorder', null), () async {
+        transFunc('generic.button_open_workorder', null), () async {
       Map<String, dynamic> openResult =
           await coreUtils.openDocument(workorderPdfUrl);
       if (!openResult['result'] && context.mounted) {
           createSnackBar(
               context,
-              getTranslationTr(
+              transFunc(
                   'generic.error_arg', {'error': openResult['message']}));
         }
     });
   }
 
   return createDefaultElevatedButton(
-      getTranslationTr('generic.button_no_workorder', null), () => {});
+      transFunc('generic.button_no_workorder', null), () => {});
 }
 
 GestureDetector wrapGestureDetector(BuildContext context, Widget child) {

@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/widgets.dart';
 import '../../models/models.dart';
-import '../../i18n_mixin.dart';
 import 'app_bars.dart';
 
-abstract class BaseSliverPlainStatelessWidget extends StatelessWidget
-    with i18nMixin {
+abstract class BaseSliverPlainStatelessWidget extends StatelessWidget {
   final String? mainMemberPicture;
 
   // base class for forms, errors, empty
-  BaseSliverPlainStatelessWidget({
+  const BaseSliverPlainStatelessWidget({
     Key? key,
     required this.mainMemberPicture,
   }) : super(key: key);
@@ -19,7 +17,7 @@ abstract class BaseSliverPlainStatelessWidget extends StatelessWidget
   Widget getBottomSection(BuildContext context);
 
   String getAppBarTitle(BuildContext context) {
-    return $trans('app_bar_title');
+    return 'app_bar_title';
   }
 
   String getAppBarSubtitle(BuildContext context) {
@@ -62,13 +60,12 @@ abstract class BaseSliverPlainStatelessWidget extends StatelessWidget
   }
 }
 
-abstract class BaseSliverListStatelessWidget extends StatelessWidget
-    with i18nMixin {
+abstract class BaseSliverListStatelessWidget extends StatelessWidget {
   final PaginationInfo? paginationInfo;
   final String? memberPicture;
 
   // base class for lists
-  BaseSliverListStatelessWidget({
+  const BaseSliverListStatelessWidget({
     Key? key,
     required this.paginationInfo,
     required this.memberPicture,
@@ -79,7 +76,7 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget
   SliverList getSliverList(BuildContext context);
 
   String getAppBarTitle(BuildContext context) {
-    return $trans('app_bar_title');
+    return 'app_bar_title';
   }
 
   String getAppBarSubtitle(BuildContext context) {
@@ -87,7 +84,7 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget
   }
 
   String getModelName() {
-    return $trans('model_name');
+    return 'model_name';
   }
 
   SliverList getPreSliverListContent(BuildContext context) {
@@ -113,9 +110,9 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget
     return paginationInfo!.previous != null && paginationInfo!.next != null;
   }
 
-  SliverPersistentHeader makePaginationHeader(BuildContext context) {
+  SliverPersistentHeader makePaginationHeader(BuildContext context, Function transFunc) {
     return makeDefaultPaginationHeader(
-        context, paginationInfo!, getModelName());
+        context, paginationInfo!, getModelName(), transFunc);
   }
 
   SliverPersistentHeader makeTabHeader(BuildContext context) {
@@ -135,7 +132,7 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget
                   // physics: BouncingScrollPhysics(),
                   slivers: <Widget>[
                 getAppBar(context),
-                if (_showPagination()) makePaginationHeader(context),
+                if (_showPagination()) makePaginationHeader(context, () {}),
                 makeTabHeader(context),
                 getPreSliverListContent(context),
                 getSliverList(context)
@@ -148,7 +145,7 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget
 abstract class BaseEmptyWidget extends BaseSliverPlainStatelessWidget {
   final String? memberPicture;
 
-  BaseEmptyWidget({
+  const BaseEmptyWidget({
     Key? key,
     required this.memberPicture,
   }) : super(key: key, mainMemberPicture: memberPicture);
@@ -158,7 +155,7 @@ abstract class BaseEmptyWidget extends BaseSliverPlainStatelessWidget {
 
   @override
   String getAppBarTitle(BuildContext context) {
-    return $trans('app_bar_title_empty');
+    return 'app_bar_title_empty';
   }
 
   @override
@@ -200,7 +197,7 @@ abstract class BaseErrorWidget extends BaseSliverPlainStatelessWidget {
   final String? memberPicture;
   final String? error;
 
-  BaseErrorWidget({
+  const BaseErrorWidget({
     Key? key,
     required this.error,
     required this.memberPicture,
@@ -208,7 +205,7 @@ abstract class BaseErrorWidget extends BaseSliverPlainStatelessWidget {
 
   @override
   String getAppBarTitle(BuildContext context) {
-    return $trans('app_bar_title_error');
+    return 'app_bar_title_error';
   }
 
   @override

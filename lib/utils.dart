@@ -16,7 +16,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'api/api_mixin.dart';
 import 'models/models.dart';
-import 'i18n_mixin.dart';
 
 final log = Logger('core.utils');
 
@@ -228,7 +227,7 @@ class CoreUtils with CoreApiMixin {
     } catch (e) {
       log.info("Error in OpenFilex: $e");
       return {
-        'message': getTranslationTr("generic.error", null),
+        'message': "generic.error",
         'result': false,
       };
     }
