@@ -178,7 +178,7 @@ class PaginationInfo {
     this.pageSize
   });
 
-  String getTitle(translationKeyOne, translationKeyMore, $trans, modelName) {
+  String getTitle(translationKeyOne, translationKeyMore, $trans) {
     String title = "";
     if (count! > pageSize!) {
       int start =
@@ -190,7 +190,7 @@ class PaginationInfo {
         "start": "$start",
         "end": "$end",
         "total": "$count",
-        "modelName": modelName
+        "modelName": $trans("model_name")
       });
     } else {
       int start = count! > 0 ? 1 : 0;
@@ -199,7 +199,7 @@ class PaginationInfo {
         "start": "$start",
         "end": "$end",
         "pageSize": "$pageSize",
-        "modelName": modelName
+        "modelName": $trans("model_name")
       });
     }
 
