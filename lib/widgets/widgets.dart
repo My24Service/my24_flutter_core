@@ -648,8 +648,7 @@ class CoreWidgets {
       Function nextPageFunc,
       Function previousPageFunc,
       Function searchFunc,
-      Function newFunc,
-      String newText
+      Function newFunc
       ) {
     if (paginationInfo == null ||
         paginationInfo.count! <= paginationInfo.pageSize!) {
