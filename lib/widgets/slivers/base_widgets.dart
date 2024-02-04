@@ -64,6 +64,7 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget {
   final String appBarTitle;
   final String appBarSubTitle;
   final String modelName;
+  final String paginationTitle;
 
   // base class for lists
   const BaseSliverListStatelessWidget({
@@ -72,15 +73,13 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget {
     required this.memberPicture,
     required this.appBarTitle,
     required this.appBarSubTitle,
-    required this.modelName
+    required this.modelName,
+    required this.paginationTitle
   }) : super(key: key);
 
   void doRefresh(BuildContext context);
   Widget getBottomSection(BuildContext context);
   SliverList getSliverList(BuildContext context);
-  SliverPersistentHeader makePaginationHeader(BuildContext context);
-
-  //   SliverPersistentHeader makePaginationHeader(BuildContext context);
 
   SliverList getPreSliverListContent(BuildContext context) {
     return SliverList(
@@ -105,6 +104,9 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget {
     return paginationInfo!.previous != null && paginationInfo!.next != null;
   }
 
+  SliverPersistentHeader makePaginationHeader(BuildContext context) {
+    return makeDefaultPaginationHeader(context, paginationTitle);
+  }
 
   SliverPersistentHeader makeTabHeader(BuildContext context) {
     return makeEmptyHeader();

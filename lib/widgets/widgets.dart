@@ -772,6 +772,25 @@ Widget createSubmitSection(Row buttons) {
 }
 
 // slivers
+SliverPersistentHeader makeDefaultPaginationHeader(BuildContext context, String title) {
+  return SliverPersistentHeader(
+    pinned: true,
+    delegate: SliverAppBarDelegate(
+      minHeight: 26.0,
+      maxHeight: 26.0,
+      child: Container(
+          color: Theme.of(context).primaryColor,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 4.0, top: 7.0, bottom: 4.0),
+            child: Text(
+              title,
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+          )),
+    ),
+  );
+}
 
 // NOT USED, here as an example
 class SliverAppBarDelegate extends SliverPersistentHeaderDelegate {

@@ -177,4 +177,32 @@ class PaginationInfo {
     this.currentPage,
     this.pageSize
   });
+
+  String getTitle(translationKeyOne, translationKeyMore, $trans, modelName) {
+    String title = "";
+    if (count! > pageSize!) {
+      int start =
+          ((currentPage! - 1) * pageSize!) + 1;
+      int? end = start + pageSize! <= count!
+          ? start + pageSize! - 1
+          : count;
+      title = $trans(translationKeyMore, {
+        "start": "$start",
+        "end": "$end",
+        "total": "$count",
+        "modelName": modelName
+      });
+    } else {
+      int start = count! > 0 ? 1 : 0;
+      int? end = count;
+      title = $trans(translationKeyOne, {
+        "start": "$start",
+        "end": "$end",
+        "pageSize": "$pageSize",
+        "modelName": modelName
+      });
+    }
+
+    return title;
+  }
 }
