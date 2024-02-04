@@ -188,10 +188,13 @@ class CoreWidgets {
     );
   }
 
-  ElevatedButton createDefaultElevatedButton(String text, Function callback) {
+  ElevatedButton createDefaultElevatedButton(BuildContext context, String text, Function callback) {
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(foregroundColor: Colors.white),
-      onPressed: callback as void Function()?,
+      style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.white,
+          backgroundColor: Theme.of(context).primaryColor,
+      ),
+      onPressed: callback as void Function(),
       child: Text(text),
     );
   }
@@ -522,10 +525,11 @@ class CoreWidgets {
     );
   }
 
-  Widget createSubmitButton(Function onClick) {
+  Widget createSubmitButton(BuildContext context, Function onClick) {
     return createDefaultElevatedButton(
-        $trans('generic.button_submit'),
-        () => onClick()
+      context,
+      $trans('generic.button_submit'),
+      () => onClick()
     );
   }
 
@@ -832,18 +836,22 @@ class CoreWidgets {
 
   Widget createViewWorkOrderButton(String? workorderPdfUrl, BuildContext context) {
     if (workorderPdfUrl != null && workorderPdfUrl != '') {
-      return createDefaultElevatedButton($trans('generic.button_open_workorder'), () async {
-        Map<String, dynamic> openResult = await coreUtils.openDocument(workorderPdfUrl);
-        if (!openResult['result'] && context.mounted) {
-            createSnackBar(
-                context,
-                $trans('generic.error_arg', {'error': openResult['message']})
-            );
+      return createDefaultElevatedButton(
+          context,
+          $trans('generic.button_open_workorder'),
+          () async {
+            Map<String, dynamic> openResult = await coreUtils.openDocument(workorderPdfUrl);
+            if (!openResult['result'] && context.mounted) {
+                createSnackBar(
+                    context,
+                    $trans('generic.error_arg', {'error': openResult['message']})
+                );
+              }
           }
-      });
+        );
     }
 
-    return createDefaultElevatedButton($trans('generic.button_no_workorder'), () => {});
+    return createDefaultElevatedButton(context, $trans('generic.button_no_workorder'), () => {});
   }
 
   GestureDetector wrapGestureDetector(BuildContext context, Widget child) {
