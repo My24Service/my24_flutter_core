@@ -2,15 +2,18 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import '../i18n.dart';
 import '../models/models.dart';
 import '../models/base_models.dart';
 import '../utils.dart';
 
 class CoreWidgets {
   // translation function used in app
+  final My24i18n i18n;
   final Function $trans;
 
   CoreWidgets({
+    required this.i18n,
     required this.$trans
   });
 
@@ -85,7 +88,7 @@ class CoreWidgets {
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: 60,
+              height: 80,
               child: ListTile(
                 title: Text('${order.orderName} (${order.customerId})',
                     style: const TextStyle(fontWeight: FontWeight.w500)),
@@ -265,10 +268,10 @@ class CoreWidgets {
           content: Text(content),
           actions: [
             TextButton(
-                child: Text($trans('coreUtils.button_cancel')),
+                child: Text($trans('generic.button_cancel')),
                 onPressed: () => Navigator.of(context).pop(false)),
             TextButton(
-                child: Text($trans('coreUtils.button_delete')),
+                child: Text($trans('generic.button_delete')),
                 onPressed: () => Navigator.of(context).pop(true)),
           ],
         );
@@ -505,7 +508,7 @@ class CoreWidgets {
 
   Widget createDeleteButton(Function onClick) {
     return createElevatedButtonColored(
-        $trans('generic.action_delete'),
+        My24i18n.tr('generic.action_delete'),
         onClick,
         foregroundColor: Colors.red, backgroundColor: Colors.white
     );
@@ -585,7 +588,8 @@ class CoreWidgets {
                       backgroundColor: Colors.grey,
                     ),
                     child: Text($trans('generic.action_search'),
-                        style: const TextStyle(color: Colors.white)),
+                        style: const TextStyle(color: Colors.white, fontSize: 10)
+                    ),
                     onPressed: () => {searchFunc(context)})),
           ),
         ],
