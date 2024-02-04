@@ -178,7 +178,7 @@ class PaginationInfo {
     this.pageSize
   });
 
-  String getTitle(translationKeyOne, translationKeyMore, $trans) {
+  String getTitle($trans) {
     String title = "";
     if (count! > pageSize!) {
       int start =
@@ -186,7 +186,7 @@ class PaginationInfo {
       int? end = start + pageSize! <= count!
           ? start + pageSize! - 1
           : count;
-      title = $trans(translationKeyMore, {
+      title = $trans("generic.pagination_more_pages", {
         "start": "$start",
         "end": "$end",
         "total": "$count",
@@ -195,7 +195,7 @@ class PaginationInfo {
     } else {
       int start = count! > 0 ? 1 : 0;
       int? end = count;
-      title = $trans(translationKeyOne, {
+      title = $trans("generic.pagination_one_page", {
         "start": "$start",
         "end": "$end",
         "pageSize": "$pageSize",
