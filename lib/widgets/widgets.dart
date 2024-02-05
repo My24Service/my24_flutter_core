@@ -8,14 +8,7 @@ import '../models/base_models.dart';
 import '../utils.dart';
 
 class CoreWidgets {
-  // translation function used in app
-  final My24i18n i18n;
-  final Function $trans;
-
-  CoreWidgets({
-    required this.i18n,
-    required this.$trans
-  });
+  CoreWidgets();
 
   Widget errorNotice(String message) {
     return Center(
@@ -139,28 +132,28 @@ class CoreWidgets {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ...buildItemListKeyValueList(
-                    "${$trans('orders.info_order_id')} / ${$trans('orders.info_order_reference')}",
+                    "${My24i18n.tr('orders.info_order_id')} / ${My24i18n.tr('orders.info_order_reference')}",
                     "${order.orderId} / ${order.orderReference ?? '-'}"),
                 ...buildItemListKeyValueList(
-                    "${$trans('orders.info_order_type')} / ${$trans('orders.info_order_date')}",
+                    "${My24i18n.tr('orders.info_order_type')} / ${My24i18n.tr('orders.info_order_date')}",
                     "${order.orderType} / ${order.orderDate}"),
                 ...buildItemListKeyValueList(
-                    "${$trans('customers.info_contact')}",
+                    "${My24i18n.tr('customers.info_contact')}",
                     "${order.orderContact ?? '-'}"),
                 if (order.orderEmail != null && order.orderEmail != '')
                   ...buildItemListKeyValueList(
-                      "${$trans('orders.info_order_email')}",
+                      "${My24i18n.tr('orders.info_order_email')}",
                       "${order.orderEmail}"),
                 if (order.customerRemarks != null && order.customerRemarks != '')
                   ...buildItemListKeyValueList(
-                      "${$trans('orders.info_order_customer_remarks')}",
+                      "${My24i18n.tr('orders.info_order_customer_remarks')}",
                       "${order.customerRemarks}"),
                 if (maintenanceContract != null)
                   ...buildItemListKeyValueList(
-                      "${$trans('assigned_orders.detail.info_maintenance_contract')}",
+                      "${My24i18n.tr('assigned_orders.detail.info_maintenance_contract')}",
                       maintenanceContract),
                 ...buildItemListKeyValueList(
-                    "${$trans('orders.info_last_status')}",
+                    "${My24i18n.tr('orders.info_last_status')}",
                     "${order.lastStatusFull}"),
               ],
             ),
@@ -169,7 +162,7 @@ class CoreWidgets {
   }
 
   Widget buildEmptyListFeedback({String? noResultsString}) {
-    noResultsString ??= $trans('generic.empty_table');
+    noResultsString ??= My24i18n.tr('generic.empty_table');
 
     return Column(
       children: [
@@ -268,10 +261,10 @@ class CoreWidgets {
           content: Text(content),
           actions: [
             TextButton(
-                child: Text($trans('generic.button_cancel')),
+                child: Text(My24i18n.tr('generic.button_cancel')),
                 onPressed: () => Navigator.of(context).pop(false)),
             TextButton(
-                child: Text($trans('generic.button_delete')),
+                child: Text(My24i18n.tr('generic.button_delete')),
                 onPressed: () => Navigator.of(context).pop(true)),
           ],
         );
@@ -297,7 +290,7 @@ class CoreWidgets {
           content: Text(content),
           actions: [
             TextButton(
-                child: Text($trans('common.button_cancel')),
+                child: Text(My24i18n.tr('common.button_cancel')),
                 onPressed: () => Navigator.of(context).pop(false)),
             TextButton(
                 child: Text(actionText),
@@ -383,15 +376,15 @@ class CoreWidgets {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         getOrderSubHeaderKeyWidget(
-            $trans('orders.info_order_id'), fontsizeKey),
+            My24i18n.tr('orders.info_order_id'), fontsizeKey),
         getOrderSubHeaderValueWidget('${order.orderId}', fontsizeValue),
         const SizedBox(height: 3),
         getOrderSubHeaderKeyWidget(
-            $trans('orders.info_order_type'), fontsizeKey),
+            My24i18n.tr('orders.info_order_type'), fontsizeKey),
         getOrderSubHeaderValueWidget('${order.orderType}', fontsizeValue),
         const SizedBox(height: 3),
         getOrderSubHeaderKeyWidget(
-            $trans('orders.info_last_status'), fontsizeKey),
+            My24i18n.tr('orders.info_last_status'), fontsizeKey),
         getOrderSubHeaderValueWidget('${order.lastStatusFull}', fontsizeValue),
         const SizedBox(height: 3),
         workorderWidget,
@@ -424,7 +417,7 @@ class CoreWidgets {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        getOrderHeaderKeyWidget($trans('orders.info_order_date'), fontsizeKey),
+        getOrderHeaderKeyWidget(My24i18n.tr('orders.info_order_date'), fontsizeKey),
         getOrderHeaderValueWidget(date, fontsizeValue),
       ],
     );
@@ -484,7 +477,7 @@ class CoreWidgets {
 
   Widget createCancelButton(Function onClick) {
     return createElevatedButtonColored(
-        $trans('generic.action_cancel'),
+        My24i18n.tr('generic.action_cancel'),
         onClick,
         backgroundColor: Colors.grey, foregroundColor: Colors.white
     );
@@ -492,7 +485,7 @@ class CoreWidgets {
 
   Widget createViewButton(Function onClick) {
     return createElevatedButtonColored(
-        $trans('generic.action_view'),
+        My24i18n.tr('generic.action_view'),
         onClick,
         backgroundColor: Colors.green, foregroundColor: Colors.white
     );
@@ -500,7 +493,7 @@ class CoreWidgets {
 
   Widget createButton(Function onClick) {
     return createElevatedButtonColored(
-        $trans('generic.action_new'),
+        My24i18n.tr('generic.action_new'),
         onClick,
         backgroundColor: Colors.green, foregroundColor: Colors.white
     );
@@ -516,14 +509,14 @@ class CoreWidgets {
 
   Widget createEditButton(Function onClick) {
     return createElevatedButtonColored(
-        $trans('generic.action_edit'),
+        My24i18n.tr('generic.action_edit'),
         () => onClick()
     );
   }
 
   Widget createNewButton(Function onClick) {
     return createElevatedButtonColored(
-        $trans('generic.action_new'),
+        My24i18n.tr('generic.action_new'),
         () => onClick()
     );
   }
@@ -531,7 +524,7 @@ class CoreWidgets {
   Widget createSubmitButton(BuildContext context, Function onClick) {
     return createDefaultElevatedButton(
       context,
-      $trans('generic.button_submit'),
+        My24i18n.tr('generic.button_submit'),
       () => onClick()
     );
   }
@@ -587,7 +580,7 @@ class CoreWidgets {
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.grey,
                     ),
-                    child: Text($trans('generic.action_search'),
+                    child: Text(My24i18n.tr('generic.action_search'),
                         style: const TextStyle(color: Colors.white, fontSize: 10)
                     ),
                     onPressed: () => {searchFunc(context)})),
@@ -631,7 +624,7 @@ class CoreWidgets {
       children: [
         TextButton(
             child: getTextDisabled(paginationInfo.currentPage! <= 1,
-                $trans('generic.button_back')),
+                My24i18n.tr('generic.button_back')),
             onPressed: () => {
                   if (paginationInfo.currentPage! > 1) {previousPageFunc(context)}
                 }),
@@ -640,7 +633,7 @@ class CoreWidgets {
         const Spacer(),
         TextButton(
             child: getTextDisabled(paginationInfo.currentPage! >= numPages,
-                $trans('generic.button_next')),
+                My24i18n.tr('generic.button_next')),
             onPressed: () => {
                   if (paginationInfo.currentPage! < numPages)
                     {nextPageFunc(context)}
@@ -842,20 +835,20 @@ class CoreWidgets {
     if (workorderPdfUrl != null && workorderPdfUrl != '') {
       return createDefaultElevatedButton(
           context,
-          $trans('generic.button_open_workorder'),
+          My24i18n.tr('generic.button_open_workorder'),
           () async {
             Map<String, dynamic> openResult = await coreUtils.openDocument(workorderPdfUrl);
             if (!openResult['result'] && context.mounted) {
                 createSnackBar(
                     context,
-                    $trans('generic.error_arg', {'error': openResult['message']})
+                    My24i18n.tr('generic.error_arg', namedArgs: {'error': openResult['message']})
                 );
               }
           }
         );
     }
 
-    return createDefaultElevatedButton(context, $trans('generic.button_no_workorder'), () => {});
+    return createDefaultElevatedButton(context, My24i18n.tr('generic.button_no_workorder'), () => {});
   }
 
   GestureDetector wrapGestureDetector(BuildContext context, Widget child) {

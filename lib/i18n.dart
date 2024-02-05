@@ -5,7 +5,7 @@ class My24i18n {
   final String basePath;
 
   My24i18n({
-    required this.basePath
+    required this.basePath,
   }) ;
 
   static tr(String path, {Map<String, String>? namedArgs}) {

@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/widgets.dart';
 import '../../models/models.dart';
+import '../../i18n.dart';
 import 'app_bars.dart';
 
 abstract class BaseSliverPlainStatelessWidget extends StatelessWidget {
   final String? mainMemberPicture;
+  final My24i18n i18n;
   final CoreWidgets widgets;
 
   // base class for forms, errors, empty
   const BaseSliverPlainStatelessWidget({
     Key? key,
     required this.mainMemberPicture,
+    required this.i18n,
     required this.widgets
   }) : super(key: key);
 
@@ -19,7 +22,7 @@ abstract class BaseSliverPlainStatelessWidget extends StatelessWidget {
   Widget getBottomSection(BuildContext context);
 
   String getAppBarTitle(BuildContext context) {
-    return widgets.$trans('app_bar_title');
+    return i18n.$trans('app_bar_title');
   }
 
   String getAppBarSubtitle(BuildContext context) {
@@ -67,6 +70,7 @@ abstract class BaseSliverPlainStatelessWidget extends StatelessWidget {
 abstract class BaseSliverListStatelessWidget extends StatelessWidget {
   final PaginationInfo? paginationInfo;
   final String? memberPicture;
+  final My24i18n i18n;
   final CoreWidgets widgets;
 
   // base class for lists
@@ -74,6 +78,7 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget {
     Key? key,
     required this.paginationInfo,
     required this.memberPicture,
+    required this.i18n,
     required this.widgets
   }) : super(key: key);
 
@@ -82,7 +87,7 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget {
   SliverList getSliverList(BuildContext context);
 
   String getAppBarTitle(BuildContext context) {
-    return widgets.$trans('app_bar_title');
+    return i18n.$trans('app_bar_title');
   }
 
   String getAppBarSubtitle(BuildContext context) {
@@ -90,7 +95,7 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget {
   }
 
   String getModelName() {
-    return widgets.$trans('model_name');
+    return i18n.$trans('model_name');
   }
 
   SliverList getPreSliverListContent(BuildContext context) {
@@ -117,7 +122,7 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget {
   }
 
   SliverPersistentHeader makePaginationHeader(BuildContext context) {
-    String paginationTitle = paginationInfo!.getTitle(widgets.$trans);
+    String paginationTitle = paginationInfo!.getTitle(i18n.$trans);
     return widgets.makeDefaultPaginationHeader(context, paginationTitle);
   }
 
@@ -151,15 +156,18 @@ abstract class BaseSliverListStatelessWidget extends StatelessWidget {
 abstract class BaseEmptyWidget extends BaseSliverPlainStatelessWidget {
   final String? memberPicture;
   final CoreWidgets widgetsIn;
+  final My24i18n i18nIn;
 
   const BaseEmptyWidget({
     Key? key,
     required this.memberPicture,
-    required this.widgetsIn
+    required this.widgetsIn,
+    required this.i18nIn
   }) : super(
       key: key,
       mainMemberPicture: memberPicture,
-      widgets: widgetsIn
+      widgets: widgetsIn,
+      i18n: i18nIn
   );
 
   String getEmptyMessage();
@@ -167,7 +175,7 @@ abstract class BaseEmptyWidget extends BaseSliverPlainStatelessWidget {
 
   @override
   String getAppBarTitle(BuildContext context) {
-    return widgetsIn.$trans('app_bar_title_empty');
+    return i18n.$trans('app_bar_title_empty');
   }
 
   @override
@@ -215,21 +223,24 @@ abstract class BaseErrorWidget extends BaseSliverPlainStatelessWidget {
   final String? memberPicture;
   final String? error;
   final CoreWidgets widgetsIn;
+  final My24i18n i18nIn;
 
   const BaseErrorWidget({
     Key? key,
     required this.error,
     required this.memberPicture,
-    required this.widgetsIn
+    required this.widgetsIn,
+    required this.i18nIn
   }) : super(
       key: key,
       mainMemberPicture: memberPicture,
-      widgets: widgetsIn
+      widgets: widgetsIn,
+      i18n: i18nIn
   );
 
   @override
   String getAppBarTitle(BuildContext context) {
-    return widgetsIn.$trans('app_bar_title_error');
+    return i18nIn.$trans('app_bar_title_error');
   }
 
   @override
