@@ -4,7 +4,7 @@ import 'dart:io' show Platform;
 
 import 'package:logging/logging.dart';
 
-final log = Logger('core.app_bars');
+final log = Logger('core.slivers.app_bars');
 
 EdgeInsets contentPadding = Platform.isIOS ?
   const EdgeInsets.only(left: 20, top: 54) :

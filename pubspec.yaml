@@ -1,6 +1,6 @@
 name: my24_flutter_core
 description: "My24Service shared core library"
-version: 0.0.2
+version: 0.0.3
 homepage: https://www.my24service.com
 
 environment:
