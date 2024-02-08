@@ -24,10 +24,6 @@ class My24i18n {
   }
 
   String $trans(String key, {Map<String, String>? namedArgs, String? pathOverride}) {
-    if (key.split('.').length > 1) {
-      log.info("using translation by direct path: $key (${key.split('.')}");
-      return tr(key, namedArgs: namedArgs);
-    }
     if (pathOverride != null) {
       log.info("using translation by path override: $pathOverride.$key");
       return tr("$pathOverride.$key", namedArgs: namedArgs);
