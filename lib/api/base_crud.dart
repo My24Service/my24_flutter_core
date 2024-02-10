@@ -6,9 +6,12 @@ import '../api/api_mixin.dart';
 import '../models/models.dart';
 import '../models/base_models.dart';
 
-
 abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with CoreApiMixin {
-  final String? basePath = null;
+  final String basePath = "";
+  set basePath(String path) {
+    this.basePath = path;
+  }
+
   http.Client httpClient = http.Client();
 
   U fromJsonList(Map<String, dynamic>? parsedJson);
@@ -45,7 +48,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
       }
     }
 
-    String url = await getUrl('$basePath');
+    String url = await getUrl(basePath);
     if (basePathAddition != null) {
       url = "$url/$basePathAddition";
     }
