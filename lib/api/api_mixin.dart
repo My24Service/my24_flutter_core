@@ -11,7 +11,10 @@ import '../models/models.dart';
 
 mixin CoreApiMixin {
   Map<String, String> getHeaders(String? token) {
-    return {'Authorization': 'Bearer $token'};
+    if (token != null) {
+      return {'Authorization': 'Bearer $token'};
+    }
+    return {};
   }
 
   Future<bool?> storeLastPosition(http.Client httpClient) async {

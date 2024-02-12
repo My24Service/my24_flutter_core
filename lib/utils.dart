@@ -27,6 +27,36 @@ class CoreUtils with CoreApiMixin {
     _httpClient = client;
   }
 
+  Future<Map<String, dynamic>> fetchSetInitialData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    final url = await getUrl('/get-initial-data/');
+    final token = prefs.getString('token');
+    final authHeaders = getHeaders(token);
+    Map<String, String> allHeaders = {"Content-Type": "application/json; charset=UTF-8"};
+    allHeaders.addAll(authHeaders);
+    final res = await _httpClient.get(Uri.parse(url), headers: allHeaders);
+
+    if (res.statusCode == 200) {
+      prefs.setString('initial_data', res.body);
+      return json.decode(res.body);
+    }
+
+    log.warning("Initial data response error, status code=${res.statusCode}");
+
+    return {};
+  }
+
+  Future<Map<String, dynamic>> getInitialDataPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? initialData = prefs.getString('initial_data');
+    if (initialData != null) {
+      return json.decode(initialData);
+    }
+
+    return {};
+  }
+
   Future<String> getBaseUrl() async {
     return getBaseUrlPrefs();
   }
