@@ -27,6 +27,31 @@ class CoreUtils with CoreApiMixin {
     _httpClient = client;
   }
 
+  Future<bool?> getHasBranches() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    final Map<String, String> envVars = Platform.environment;
+
+    if (!prefs.containsKey('member_has_branches')) {
+      if (envVars['TESTING'] != null) {
+        prefs.setBool('member_has_branches', false);
+      } else {
+        final Map<String, dynamic> initialData = await getInitialDataPrefs();
+        if (initialData.containsKey('memberInfo')) {
+          prefs.setBool('member_has_branches', initialData['memberInfo']['has_branches']);
+        }
+      }
+    }
+
+    return prefs.getBool('member_has_branches');
+  }
+
+  Future<String?> getUserSubmodel() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.getString('submodel');
+  }
+
   Future<Map<String, dynamic>> fetchSetInitialData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
