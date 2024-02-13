@@ -191,13 +191,6 @@ class CoreUtils with CoreApiMixin {
     return null;
   } //
 
-
-  Future<String?> getUserSubmodel() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    return prefs.getString('submodel');
-  }
-
   Future<void> requestFCMPermissions() async {
     // request permissions
     SharedPreferences prefs = await SharedPreferences.getInstance();
