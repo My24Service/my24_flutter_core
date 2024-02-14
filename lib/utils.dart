@@ -52,6 +52,12 @@ class CoreUtils with CoreApiMixin {
     return prefs.getString('first_name');
   }
 
+  Future<String?> getUserSubmodel() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    return prefs.getString('submodel');
+  }
+
   Future<String?> getMemberPicture() async {
     String? memberPicture;
     Map<String, dynamic> initialData = await getInitialDataPrefs();
