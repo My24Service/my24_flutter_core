@@ -118,21 +118,20 @@ abstract class BaseGenericAppBarFactory {
   }
 
   SliverAppBar createAppBar() {
+    // final Map<String, String> envVars = Platform.environment;
     String localMemberPicture;
+    Widget image;
     if (mainMemberPicture == null) {
+      image = Image.asset("assets/icon/icon.png");
       log.info("memberPicture not set, using default one");
-      localMemberPicture = "https://demo.my24service-dev.com/media/company_pictures/demo/92c01936-0c5f-4bdc-b5ee-4c75f42941cb.png";
     } else {
       localMemberPicture = mainMemberPicture!;
-    }
-
-    final Map<String, String> envVars = Platform.environment;
-
-    Widget image = envVars['TESTING'] != null ? Image.network(mainMemberPicture!) : CachedNetworkImage(
+      image = CachedNetworkImage(
         placeholder: (context, url) => const CircularProgressIndicator(),
         imageUrl: localMemberPicture,
         fit: BoxFit.cover,
       );
+    }
 
     return SliverAppBar(
       pinned: true,
