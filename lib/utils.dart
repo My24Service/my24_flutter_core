@@ -47,6 +47,11 @@ class CoreUtils with CoreApiMixin {
     return prefs.getBool('member_has_branches');
   }
 
+  Future<String?> getFirstName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('first_name');
+  }
+
   Future<String?> getMemberPicture() async {
     String? memberPicture;
     Map<String, dynamic> initialData = await getInitialDataPrefs();
