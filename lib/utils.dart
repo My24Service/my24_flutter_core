@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io' show Directory, Platform;
 import 'dart:io' as io;
+import 'dart:math';
 
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart' as http;
@@ -44,6 +45,19 @@ class CoreUtils with CoreApiMixin {
     }
 
     return prefs.getBool('member_has_branches');
+  }
+
+  Future<String?> getMemberPicture() async {
+    String? memberPicture;
+    Map<String, dynamic> initialData = await getInitialDataPrefs();
+    if (initialData.containsKey('memberInfo')) {
+      if (initialData['memberInfo']['pictures'].length > 0) {
+        final int randomPos = Random().nextInt(initialData['memberInfo']['pictures'].length);
+        memberPicture = initialData['memberInfo']['pictures'][randomPos];
+      }
+    }
+
+    return memberPicture;
   }
 
   Future<String?> getUserSubmodel() async {
