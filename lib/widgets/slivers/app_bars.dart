@@ -118,17 +118,14 @@ abstract class BaseGenericAppBarFactory {
   }
 
   SliverAppBar createAppBar() {
-    // final Map<String, String> envVars = Platform.environment;
-    String localMemberPicture;
     Widget image;
     if (mainMemberPicture == null) {
       image = Image.asset("assets/icon/icon.png");
       log.info("memberPicture not set, using default one");
     } else {
-      localMemberPicture = mainMemberPicture!;
       image = CachedNetworkImage(
         placeholder: (context, url) => const CircularProgressIndicator(),
-        imageUrl: localMemberPicture,
+        imageUrl: mainMemberPicture!,
         fit: BoxFit.cover,
       );
     }

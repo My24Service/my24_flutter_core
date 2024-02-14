@@ -59,6 +59,9 @@ class CoreUtils with CoreApiMixin {
       if (initialData['memberInfo']['pictures'].length > 0) {
         final int randomPos = Random().nextInt(initialData['memberInfo']['pictures'].length);
         memberPicture = initialData['memberInfo']['pictures'][randomPos];
+        final String baseUrl = await getBaseUrlPrefs();
+        final String url = "$baseUrl$memberPicture";
+        return url;
       }
     }
 
