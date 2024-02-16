@@ -1,10 +1,13 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 
 import '../api/api_mixin.dart';
 import '../models/models.dart';
 import '../models/base_models.dart';
+
+final log = Logger('core.base_crud');
 
 abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with CoreApiMixin {
   final String basePath = "";
@@ -63,7 +66,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     } else {
       url = "$url/";
     }
-    // print('list: $url, httpClient: $_client, headers: $headers');
+    log.info('list: $url, httpClient: $client, headers: $headers');
 
     final response = await client.get(
         Uri.parse(url),
@@ -91,7 +94,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     if (basePathAddition != null) {
       url = "$url$basePathAddition";
     }
-    // print('detail: $url, httpClient: $httpClient');
+    log.info('detail: $url, httpClient: $httpClient');
 
     final response = await httpClient.get(
         Uri.parse(url),
@@ -113,7 +116,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     final url = await getUrl('$basePath/');
     Map<String, String> allHeaders = {"Content-Type": "application/json; charset=UTF-8"};
     allHeaders.addAll(getHeaders(newToken.token));
-    // print('insert: $url');
+    log.info('insert: $url');
 
     final response = await httpClient.post(
       Uri.parse(url),
@@ -138,7 +141,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
 
     Map<String, String> allHeaders = {"Content-Type": "application/json; charset=UTF-8"};
     allHeaders.addAll(getHeaders(newToken.token));
-    // print(url);
+    log.info('insertCustom: $url');
 
     // print(data);
     final response = await httpClient.post(
@@ -170,7 +173,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     final url = await getUrl('$basePath/$pk/');
     Map<String, String> allHeaders = {"Content-Type": "application/json; charset=UTF-8"};
     allHeaders.addAll(getHeaders(newToken.token));
-    // print('update: $url');
+    log.info('update: $url');
 
     final response = await httpClient.patch(
       Uri.parse(url),
@@ -194,7 +197,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
         Uri.parse(url),
         headers: getHeaders(newToken.token)
     );
-    // print('delete: $url');
+    log.info('delete: $url');
 
     if (response.statusCode == 204) {
       return true;
