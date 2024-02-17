@@ -168,6 +168,7 @@ mixin CoreApiMixin {
     final prefs = await SharedPreferences.getInstance();
     String? companycode = prefs.getString('companycode');
     String? apiBaseUrl = prefs.getString('apiBaseUrl');
+    String protocol = prefs.getString('apiProtocol') ?? "https";
 
     if (companycode == null || companycode == '') {
       companycode = 'demo';
@@ -177,13 +178,14 @@ mixin CoreApiMixin {
       apiBaseUrl = 'my24service-dev.com';
     }
 
-    return 'https://$companycode.$apiBaseUrl/api$path';
+    return '$protocol://$companycode.$apiBaseUrl/api$path';
   }
 
   Future<String> getBaseUrlPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     String? companycode = prefs.getString('companycode');
     String? apiBaseUrl = prefs.getString('apiBaseUrl');
+    String protocol = prefs.getString('apiProtocol') ?? "https";
 
     if (companycode == null || companycode == '') {
       companycode = 'demo';
@@ -193,6 +195,6 @@ mixin CoreApiMixin {
       apiBaseUrl = 'my24service-dev.com';
     }
 
-    return 'https://$companycode.$apiBaseUrl';
+    return '$protocol://$companycode.$apiBaseUrl';
   }
 }
