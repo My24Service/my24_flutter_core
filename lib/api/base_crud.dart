@@ -84,7 +84,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     throw Exception(msg);
   }
 
-  Future<T> detail(int pk, {String? basePathAddition, bool needsAuth=true}) async {
+  Future<T> detail(dynamic pk, {String? basePathAddition, bool needsAuth=true}) async {
     Map<String, String> headers = {};
     if (needsAuth) {
       SlidingToken newToken = await getNewToken();
