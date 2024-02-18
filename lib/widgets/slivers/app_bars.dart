@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
@@ -117,8 +119,15 @@ abstract class BaseGenericAppBarFactory {
     // );
   }
 
-  Image getAltBackground() {
-    return Image.asset("assets/icon/icon.png");
+  Widget getAltBackground() {
+    final bgs = [
+      const Bg1Image(),
+      const Bg2Image(),
+      const Bg3Image(),
+      const Bg4Image(),
+    ];
+    final int randomPos = Random().nextInt(bgs.length);
+    return bgs[randomPos];
   }
 
   SliverAppBar createAppBar() {
@@ -200,4 +209,40 @@ class SmallAppBarFactory extends BaseSmallAppBarFactory {
     required String title
   }) : super(context: context, title: title);
 
+}
+
+class Bg1Image extends StatelessWidget {
+  const Bg1Image({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset("assets/bg1.jpg");
+  }
+}
+
+class Bg2Image extends StatelessWidget {
+  const Bg2Image({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset("assets/bg2.jpg");
+  }
+}
+
+class Bg3Image extends StatelessWidget {
+  const Bg3Image({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset("assets/bg3.jpg");
+  }
+}
+
+class Bg4Image extends StatelessWidget {
+  const Bg4Image({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset("assets/bg4.jpg");
+  }
 }
