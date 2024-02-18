@@ -66,7 +66,8 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     } else {
       url = "$url/";
     }
-    log.info('list: $url, httpClient: $client, headers: $headers');
+
+    log.info('getListResponseBody: $url, httpClient: $client, headers: $headers');
 
     final response = await client.get(
         Uri.parse(url),
