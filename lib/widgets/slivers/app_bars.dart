@@ -117,10 +117,14 @@ abstract class BaseGenericAppBarFactory {
     // );
   }
 
+  Image getAltBackground() {
+    return Image.asset("assets/icon/icon.png");
+  }
+
   SliverAppBar createAppBar() {
     Widget image;
     if (mainMemberPicture == null) {
-      image = Image.asset("assets/icon/icon.png");
+      image = getAltBackground();
       log.info("memberPicture not set, using default one");
     } else {
       image = CachedNetworkImage(
