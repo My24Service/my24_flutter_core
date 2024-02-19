@@ -138,6 +138,8 @@ abstract class BaseGenericAppBarFactory {
       if (envVars['TESTING'] == null) {
         image = getAltBackground();
         log.info("memberPicture not set, using default one");
+      } else {
+        image = Image.asset("assets/icon/icon.png");
       }
     } else {
       image = CachedNetworkImage(
