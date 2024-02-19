@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:io' show Platform;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -133,8 +134,11 @@ abstract class BaseGenericAppBarFactory {
   SliverAppBar createAppBar() {
     Widget image;
     if (mainMemberPicture == null) {
-      image = getAltBackground();
-      log.info("memberPicture not set, using default one");
+      final Map<String, String> envVars = Platform.environment;
+      if (envVars['TESTING'] == null) {
+        image = getAltBackground();
+        log.info("memberPicture not set, using default one");
+      }
     } else {
       image = CachedNetworkImage(
         placeholder: (context, url) => const CircularProgressIndicator(),
