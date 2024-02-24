@@ -290,7 +290,7 @@ class CoreWidgets {
           content: Text(content),
           actions: [
             TextButton(
-                child: Text(My24i18n.tr('common.button_cancel')),
+                child: Text(My24i18n.tr('generic.button_cancel')),
                 onPressed: () => Navigator.of(context).pop(false)),
             TextButton(
                 child: Text(actionText),
