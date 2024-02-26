@@ -111,7 +111,7 @@ class CoreWidgets {
                   )),
             if (order.orderMobile != null && order.orderMobile != '')
               SizedBox(
-                height: 46,
+                height: 30,
                 child: ListTile(
                   title: Text('${order.orderMobile}',
                       style: const TextStyle(fontWeight: FontWeight.w500)),
@@ -125,6 +125,20 @@ class CoreWidgets {
                     }
                   },
                 ),
+              ),
+            if (order.orderEmail != null && order.orderEmail != '')
+              ListTile(
+                title: Text('${order.orderEmail}',
+                    style: const TextStyle(fontWeight: FontWeight.w500)),
+                leading: Icon(
+                  Icons.email,
+                  color: Colors.blue[500],
+                ),
+                onTap: () {
+                  if (order.orderEmail != '' && order.orderEmail != null) {
+                    coreUtils.launchURL("mailto://${order.orderEmail}");
+                  }
+                },
               ),
             const SizedBox(height: 10),
             getMy24Divider(context),
@@ -140,10 +154,6 @@ class CoreWidgets {
                 ...buildItemListKeyValueList(
                     "${My24i18n.tr('customers.info_contact')}",
                     "${order.orderContact ?? '-'}"),
-                if (order.orderEmail != null && order.orderEmail != '')
-                  ...buildItemListKeyValueList(
-                      "${My24i18n.tr('orders.info_order_email')}",
-                      "${order.orderEmail}"),
                 if (order.customerRemarks != null && order.customerRemarks != '')
                   ...buildItemListKeyValueList(
                       "${My24i18n.tr('orders.info_order_customer_remarks')}",
