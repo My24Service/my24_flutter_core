@@ -76,6 +76,7 @@ class CoreWidgets {
       );
 
   Widget buildOrderInfoCard(BuildContext context, order, {String? maintenanceContract}) {
+    final String nameText = order.customerId != "" ? '${order.orderName} (${order.customerId})' : order.orderName;
     return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -83,8 +84,10 @@ class CoreWidgets {
             SizedBox(
               height: 80,
               child: ListTile(
-                title: Text('${order.orderName} (${order.customerId})',
-                    style: const TextStyle(fontWeight: FontWeight.w500)),
+                title: Text(
+                    nameText,
+                    style: const TextStyle(fontWeight: FontWeight.w500)
+                ),
                 subtitle: Text(
                     '${order.orderAddress}\n${order.orderCountryCode}-${order.orderPostal}\n${order.orderCity}'),
                 leading: Icon(
@@ -152,7 +155,7 @@ class CoreWidgets {
                     "${My24i18n.tr('orders.info_order_type')} / ${My24i18n.tr('orders.info_order_date')}",
                     "${order.orderType} / ${order.orderDate}"),
                 ...buildItemListKeyValueList(
-                    "${My24i18n.tr('customers.info_contact')}",
+                    "${My24i18n.tr('orders.info_contact')}",
                     "${order.orderContact ?? '-'}"),
                 if (order.customerRemarks != null && order.customerRemarks != '')
                   ...buildItemListKeyValueList(

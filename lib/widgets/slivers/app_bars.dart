@@ -73,7 +73,7 @@ abstract class BaseSmallAppBarFactory {
   SliverAppBar createAppBar() {
     return SliverAppBar(
       pinned: true,
-      stretch: false,
+      // stretch: true,
       floating: false,
       backgroundColor: Theme.of(context).primaryColor,
       iconTheme: const IconThemeData(color: Colors.white),
@@ -220,7 +220,10 @@ class Bg1Image extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset("assets/bg1.jpg");
+    return Image.asset(
+      "assets/bg1.jpg",
+      fit: BoxFit.cover,
+    );
   }
 }
 
@@ -229,7 +232,10 @@ class Bg2Image extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset("assets/bg2.jpg");
+    return Image.asset(
+      "assets/bg2.jpg",
+      fit: BoxFit.cover,
+    );
   }
 }
 
@@ -238,7 +244,10 @@ class Bg3Image extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset("assets/bg3.jpg");
+    return Image.asset(
+      "assets/bg3.jpg",
+      fit: BoxFit.cover,
+    );
   }
 }
 
@@ -247,6 +256,9 @@ class Bg4Image extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset("assets/bg4.jpg");
+    return Image.asset(
+      "assets/bg4.jpg",
+      fit: BoxFit.cover,
+    );
   }
 }
