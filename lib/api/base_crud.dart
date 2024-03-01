@@ -91,7 +91,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
       headers = getHeaders(newToken.token);
     }
 
-    String url = await getUrl('$basePath/$pk/');
+    String url = pk != null ? await getUrl('$basePath/$pk/') : await getUrl('$basePath/');
     if (basePathAddition != null) {
       url = "$url$basePathAddition";
     }
