@@ -90,7 +90,7 @@ mixin CoreApiMixin {
 
     final String? token = prefs.getString('token');
     final int? userId = prefs.getInt('user_id');
-    final bool isAllowed = prefs.getBool('fcm_allowed')!;
+    final bool isAllowed = prefs.getBool('fcm_allowed') == null ? false : prefs.getBool('fcm_allowed')!;
 
     if (!isAllowed) {
       return false;
