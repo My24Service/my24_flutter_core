@@ -198,14 +198,14 @@ class CoreWidgets {
   }
 
   Widget createDefaultElevatedButton(BuildContext context, String text, Function callback) {
-    return DefaultTextStyle.merge(child: ElevatedButton(
+    return ElevatedButton(
       style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
           backgroundColor: Theme.of(context).primaryColor,
       ),
       onPressed: callback as void Function(),
       child: Text(text),
-    ));
+    );
   }
 
   Widget createPhoneSection(BuildContext context, String number) {
