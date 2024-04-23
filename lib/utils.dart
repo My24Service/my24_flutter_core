@@ -4,6 +4,7 @@ import 'dart:io' as io;
 import 'dart:math';
 
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -351,6 +352,67 @@ class CoreUtils with CoreApiMixin {
     }
 
     return today.subtract(Duration(days: today.weekday - 1));
+  }
+
+
+  Future<SimpleAddress?> positionToAddress(http.Client httpClient) async {
+    // try to get address from location
+    final Map<String, String> envVars = Platform.environment;
+
+    if (envVars['TESTING'] != null) {
+      return null;
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse &&
+          permission != LocationPermission.always) {
+        return Future.error(
+            'Location permissions are denied (actual value: $permission).');
+      }
+    }
+
+    Position position = await Geolocator.getCurrentPosition();
+
+    final url = await getUrl('/location-to-address/');
+    final token = prefs.getString('token');
+
+    Map<String, String> allHeaders = {"Content-Type": "application/json; charset=UTF-8"};
+    allHeaders.addAll(getHeaders(token));
+
+    final Map body = {
+      'lon': position.longitude,
+      'lat': position.latitude,
+    };
+
+    final response = await httpClient.post(
+      Uri.parse(url),
+      body: json.encode(body),
+      headers: allHeaders,
+    );
+
+    if (response.statusCode == 200) {
+      final SimpleAddress address = SimpleAddress.fromJson(json.decode(response.body));
+      return address;
+    }
+
+    return null;
   }
 
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
+import 'package:my24_flutter_core/models/base_models.dart';
 
 final log = Logger('core.models');
 
@@ -205,4 +206,28 @@ class PaginationInfo {
 
     return title;
   }
+}
+
+class SimpleAddress {
+  String? street;
+  String? postal;
+  String? city;
+  String? countryCode;
+
+  SimpleAddress({
+    this.street,
+    this.postal,
+    this.city,
+    this.countryCode
+  });
+
+  factory SimpleAddress.fromJson(Map<String, dynamic> parsedJson) {
+    return SimpleAddress(
+      street: parsedJson['street'],
+      postal: parsedJson['postal'],
+      city: parsedJson['city'],
+      countryCode: parsedJson['country_code'],
+    );
+  }
+
 }
