@@ -408,8 +408,13 @@ class CoreUtils with CoreApiMixin {
     );
 
     if (response.statusCode == 200) {
-      final SimpleAddress address = SimpleAddress.fromJson(json.decode(response.body));
-      return address;
+      try {
+        final SimpleAddress address = SimpleAddress.fromJson(json.decode(response.body));
+        return address;
+      } catch(e) {
+        log.severe("Error creating address object: $e");
+        return null;
+      }
     }
 
     return null;
