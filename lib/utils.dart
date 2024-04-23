@@ -355,7 +355,7 @@ class CoreUtils with CoreApiMixin {
   }
 
 
-  Future<SimpleAddress?> positionToAddress(http.Client httpClient) async {
+  Future<SimpleAddress?> positionToAddress() async {
     // try to get address from location
     final Map<String, String> envVars = Platform.environment;
 
@@ -401,7 +401,7 @@ class CoreUtils with CoreApiMixin {
       'lat': position.latitude,
     };
 
-    final response = await httpClient.post(
+    final response = await _httpClient.post(
       Uri.parse(url),
       body: json.encode(body),
       headers: allHeaders,
