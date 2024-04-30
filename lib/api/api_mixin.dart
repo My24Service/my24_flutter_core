@@ -78,7 +78,7 @@ mixin CoreApiMixin {
     return false;
   }
 
-  Future<bool?> postDeviceToken(http.Client httpClient) async {
+  Future<bool?> postDeviceToken(http.Client httpClient, int userId) async {
     final Map<String, String> envVars = Platform.environment;
 
     if (envVars['TESTING'] != null) {
@@ -88,7 +88,6 @@ mixin CoreApiMixin {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final String? token = prefs.getString('token');
-    final int? userId = prefs.getInt('user_id');
     final bool isAllowed = prefs.getBool('fcm_allowed') == null ? false : prefs.getBool('fcm_allowed')!;
 
     if (!isAllowed) {
