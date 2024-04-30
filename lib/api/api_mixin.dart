@@ -17,7 +17,7 @@ mixin CoreApiMixin {
     return {};
   }
 
-  Future<bool?> storeLastPosition(http.Client httpClient) async {
+  Future<bool?> storeLastPosition(http.Client httpClient, int userId) async {
     // get best latest position
     final Map<String, String> envVars = Platform.environment;
 
@@ -52,7 +52,6 @@ mixin CoreApiMixin {
 
     Position position = await Geolocator.getCurrentPosition();
 
-    final int? userId = prefs.getInt('user_id');
     final String? token = prefs.getString('token');
     final url = await getUrl('/company/engineer/$userId/store_lon_lat/');
 
