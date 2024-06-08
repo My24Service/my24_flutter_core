@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-import 'package:my24_flutter_core/models/base_models.dart';
 
 final log = Logger('core.models');
 

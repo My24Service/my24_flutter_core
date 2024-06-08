@@ -186,7 +186,19 @@ class CoreWidgets {
   }
 
   ElevatedButton createElevatedButtonColored(String text, Function callback,
-      {foregroundColor = Colors.white, backgroundColor = Colors.blue}) {
+      {foregroundColor = Colors.white, backgroundColor = Colors.blue, key}) {
+    if (key != null) {
+      return ElevatedButton(
+        key: Key(key),
+        style: ElevatedButton.styleFrom(
+          foregroundColor: foregroundColor,
+          backgroundColor: backgroundColor,
+        ),
+        onPressed: callback as void Function()?,
+        child: Text(text),
+      );
+    }
+
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         foregroundColor: foregroundColor,
@@ -197,7 +209,19 @@ class CoreWidgets {
     );
   }
 
-  Widget createDefaultElevatedButton(BuildContext context, String text, Function callback) {
+  Widget createDefaultElevatedButton(BuildContext context, String text, Function callback, {key}) {
+    if (key != null) {
+      return ElevatedButton(
+        key: Key(key),
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.white,
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
+        onPressed: callback as void Function(),
+        child: Text(text),
+      );
+    }
+
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
