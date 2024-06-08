@@ -558,11 +558,12 @@ class CoreWidgets {
     );
   }
 
-  Widget createSubmitButton(BuildContext context, Function onClick) {
+  Widget createSubmitButton(BuildContext context, Function onClick, {key}) {
     return createDefaultElevatedButton(
       context,
-        My24i18n.tr('generic.button_submit'),
-      () => onClick()
+      My24i18n.tr('generic.button_submit'),
+      () => onClick(),
+      key: key
     );
   }
 
