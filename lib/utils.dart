@@ -105,6 +105,21 @@ class CoreUtils with CoreApiMixin {
     return {};
   }
 
+  Future<bool> getMemberSettingBool(String key) async {
+    Map<String, dynamic> initialData = await coreUtils.getInitialDataPrefs();
+    if (initialData['memberInfo']['settings'].containsKey(key)) {
+      return initialData['memberInfo']['settings'][key];
+    }
+
+    // refresh prefs
+    initialData = await fetchSetInitialData();
+    if (initialData['memberInfo']['settings'].containsKey(key)) {
+      return initialData['memberInfo']['settings'][key];
+    }
+
+    return false;
+  }
+
   Future<String> getBaseUrl() async {
     return getBaseUrlPrefs();
   }
