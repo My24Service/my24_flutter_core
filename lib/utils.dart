@@ -79,6 +79,8 @@ class CoreUtils with CoreApiMixin {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final url = await getUrl('/get-initial-data/');
+    log.info('fetchSetInitialData url: $url');
+
     final token = prefs.getString('token');
     final authHeaders = getHeaders(token);
     Map<String, String> allHeaders = {"Content-Type": "application/json; charset=UTF-8"};

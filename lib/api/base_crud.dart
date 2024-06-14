@@ -194,11 +194,12 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     SlidingToken newToken = await getNewToken(httpClientOverride: httpClient);
 
     final url = await getUrl('$basePath/$pk/');
+    log.info('delete: $url');
+
     final response = await httpClient.delete(
         Uri.parse(url),
         headers: getHeaders(newToken.token)
     );
-    log.info('delete: $url');
 
     if (response.statusCode == 204) {
       return true;
