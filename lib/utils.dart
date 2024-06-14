@@ -95,20 +95,21 @@ class CoreUtils with CoreApiMixin {
     return {};
   }
 
-  Future<Map<String, dynamic>> getInitialDataPrefs() async {
+  Future<Map<String, dynamic>?> getInitialDataPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? initialData = prefs.getString('initial_data');
     if (initialData != null) {
       return json.decode(initialData);
     }
 
-    return {};
+    return null;
   }
 
   Future<bool> getMemberSettingBool(String key) async {
-    Map<String, dynamic> initialData = await coreUtils.getInitialDataPrefs();
-    if (initialData['memberInfo']['settings'].containsKey(key)) {
-      return initialData['memberInfo']['settings'][key];
+    Map<String, dynamic>? initialData = await coreUtils.getInitialDataPrefs();
+
+    if (initialData != null && initialData['memberInfo']['settings'].containsKey(key)) {
+        return initialData['memberInfo']['settings'][key];
     }
 
     // refresh prefs
