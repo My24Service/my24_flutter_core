@@ -67,7 +67,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
       url = "$url/";
     }
 
-    log.info('getListResponseBody: $url, httpClient: $client, headers: $headers');
+    log.info('getListResponseBody: $url, client: $client');
 
     final response = await client.get(
         Uri.parse(url),
@@ -95,7 +95,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     if (basePathAddition != null) {
       url = "$url$basePathAddition";
     }
-    log.info('detail: $url, httpClient: $httpClient');
+    log.info('detail: $url, client: $httpClient');
 
     final response = await httpClient.get(
         Uri.parse(url),
@@ -117,7 +117,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     final url = await getUrl('$basePath/');
     Map<String, String> allHeaders = {"Content-Type": "application/json; charset=UTF-8"};
     allHeaders.addAll(getHeaders(newToken.token));
-    log.info('insert: $url');
+    log.info('insert: $url, client: $httpClient');
 
     final response = await httpClient.post(
       Uri.parse(url),
@@ -142,7 +142,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
 
     Map<String, String> allHeaders = {"Content-Type": "application/json; charset=UTF-8"};
     allHeaders.addAll(getHeaders(newToken.token));
-    log.info('insertCustom: $url');
+    log.info('insertCustom: $url, client: $httpClient');
 
     // print(data);
     final response = await httpClient.post(
@@ -174,7 +174,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     final url = await getUrl('$basePath/$pk/');
     Map<String, String> allHeaders = {"Content-Type": "application/json; charset=UTF-8"};
     allHeaders.addAll(getHeaders(newToken.token));
-    log.info('update: $url');
+    log.info('update: $url, client: $httpClient');
 
     final response = await httpClient.patch(
       Uri.parse(url),
@@ -194,7 +194,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     SlidingToken newToken = await getNewToken(httpClientOverride: httpClient);
 
     final url = await getUrl('$basePath/$pk/');
-    log.info('delete: $url');
+    log.info('delete: $url, client: $httpClient');
 
     final response = await httpClient.delete(
         Uri.parse(url),

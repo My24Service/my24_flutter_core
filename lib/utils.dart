@@ -79,7 +79,7 @@ class CoreUtils with CoreApiMixin {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final url = await getUrl('/get-initial-data/');
-    log.info('fetchSetInitialData url: $url');
+    log.info('fetchSetInitialData url: $url, client: $_httpClient');
 
     final token = prefs.getString('token');
     final authHeaders = getHeaders(token);
