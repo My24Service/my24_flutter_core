@@ -38,8 +38,8 @@ class CoreUtils with CoreApiMixin {
       if (envVars['TESTING'] != null) {
         prefs.setBool('member_has_branches', false);
       } else {
-        final Map<String, dynamic> initialData = await getInitialDataPrefs();
-        if (initialData.containsKey('memberInfo')) {
+        final Map<String, dynamic>? initialData = await getInitialDataPrefs();
+        if (initialData != null && initialData.containsKey('memberInfo')) {
           prefs.setBool('member_has_branches', initialData['memberInfo']['has_branches']);
         }
       }
@@ -55,8 +55,8 @@ class CoreUtils with CoreApiMixin {
 
   Future<String?> getMemberPicture() async {
     String? memberPicture;
-    Map<String, dynamic> initialData = await getInitialDataPrefs();
-    if (initialData.containsKey('memberInfo')) {
+    Map<String, dynamic>? initialData = await getInitialDataPrefs();
+    if (initialData != null && initialData.containsKey('memberInfo')) {
       if (initialData['memberInfo']['pictures'].length > 0) {
         final int randomPos = Random().nextInt(initialData['memberInfo']['pictures'].length);
         memberPicture = initialData['memberInfo']['pictures'][randomPos];
