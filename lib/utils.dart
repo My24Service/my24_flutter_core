@@ -38,8 +38,8 @@ class CoreUtils with CoreApiMixin {
       if (envVars['TESTING'] != null) {
         prefs.setBool('member_has_branches', false);
       } else {
-        final Map<String, dynamic>? initialData = await getInitialDataPrefs();
-        if (initialData != null && initialData.containsKey('memberInfo')) {
+        final Map<String, dynamic> initialData = await getInitialDataPrefs();
+        if (initialData.containsKey('memberInfo')) {
           prefs.setBool('member_has_branches', initialData['memberInfo']['has_branches']);
         }
       }
@@ -54,9 +54,14 @@ class CoreUtils with CoreApiMixin {
   }
 
   Future<String?> getMemberPicture() async {
+    final Map<String, String> envVars = Platform.environment;
+    if (envVars['TESTING'] != null) {
+      return null;
+    }
+
     String? memberPicture;
-    Map<String, dynamic>? initialData = await getInitialDataPrefs();
-    if (initialData != null && initialData.containsKey('memberInfo')) {
+    Map<String, dynamic> initialData = await getInitialDataPrefs();
+    if (initialData.containsKey('memberInfo')) {
       if (initialData['memberInfo']['pictures'].length > 0) {
         final int randomPos = Random().nextInt(initialData['memberInfo']['pictures'].length);
         memberPicture = initialData['memberInfo']['pictures'][randomPos];
@@ -88,7 +93,7 @@ class CoreUtils with CoreApiMixin {
     final res = await _httpClient.get(Uri.parse(url), headers: allHeaders);
 
     if (res.statusCode == 200) {
-      prefs.setString('initial_data', res.body);
+      await prefs.setString('initial_data', res.body);
       return json.decode(res.body);
     }
 
@@ -97,24 +102,24 @@ class CoreUtils with CoreApiMixin {
     return {};
   }
 
-  Future<Map<String, dynamic>?> getInitialDataPrefs() async {
+  Future<Map<String, dynamic>> getInitialDataPrefs() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? initialData = prefs.getString('initial_data');
     if (initialData != null) {
       return json.decode(initialData);
     }
 
-    return null;
+    return {};
   }
 
   Future<bool> getMemberSettingBool(String key) async {
-    Map<String, dynamic>? initialData = await coreUtils.getInitialDataPrefs();
+    Map<String, dynamic> initialData = await getInitialDataPrefs();
 
-    if (initialData != null && initialData['memberInfo']['settings'].containsKey(key)) {
-        return initialData['memberInfo']['settings'][key];
+    if (initialData.containsKey('memberInfo') && initialData['memberInfo'].containsKey('settings') && initialData['memberInfo']['settings'].containsKey(key)) {
+      return initialData['memberInfo']['settings'][key];
     }
 
-    // refresh prefs
+    // fetch prefs
     initialData = await fetchSetInitialData();
     if (initialData['memberInfo']['settings'].containsKey(key)) {
       return initialData['memberInfo']['settings'][key];
