@@ -40,6 +40,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
       SlidingToken newToken = await getNewToken(httpClientOverride: client);
       log.info('getListResponseBody after getNewToken: newToken: ${newToken.token}');
       headers = {'Authorization': 'Bearer ${newToken.token}'};
+      log.info('headers token length: ${headers["Authorization"]!.length}');
     }
 
     // List<String> args = ["page_size=5"];
@@ -69,7 +70,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     }
 
     log.info('getListResponseBody: $url, client: $client, headers: $headers');
-    log.info('headers: $headers');
+    log.info('headers token length: ${headers["Authorization"]!.length}');
 
     final response = await client.get(
         Uri.parse(url),
