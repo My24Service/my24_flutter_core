@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_mixin.dart';
 import '../models/models.dart';
@@ -38,10 +39,13 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     Map<String, String> headers = {};
     if (needsAuth) {
       SlidingToken newToken = await getNewToken(httpClientOverride: client);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? token = prefs.getString('token');
       log.info('getListResponseBody after getNewToken: newToken: ${newToken.token}');
       headers = {'Authorization': 'Bearer ${newToken.token}'};
       log.info('headers token length by hand: ${"Bearer ${newToken.token}".length}');
       log.info('headers token length: ${headers["Authorization"]!.length}');
+      log.info('headers token length by hand from prefs: ${"Bearer $token".length}');
     }
 
     // List<String> args = ["page_size=5"];
