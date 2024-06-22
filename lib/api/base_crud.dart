@@ -40,10 +40,10 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     if (needsAuth) {
       SlidingToken newToken = await getNewToken(httpClientOverride: client);
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String? token = prefs.getString('token');
-      log.info('getListResponseBody after getNewToken: newToken: ${newToken.token}');
-      headers = {'Authorization': 'Bearer $token'};
-      log.info('headers token length by hand: ${"Bearer ${newToken.token}".length}');
+      // final String? token = prefs.getString('token');
+      // log.info('getListResponseBody after getNewToken: newToken: ${newToken.token}');
+      headers = {'Authorization': 'Bearer ${newToken.token!}'};
+      // log.info('headers token length by hand: ${"Bearer ${newToken.token}".length}');
       // log.info('headers token from prefs: ${"Bearer $token".length}');
     }
 
@@ -73,9 +73,9 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
       url = "$url/";
     }
 
-    log.info('getListResponseBody: $url, client: $client, headers: $headers');
-    log.info('headers token length: ${headers["Authorization"]!.length}');
-    log.info('headers token: ${headers["Authorization"]}');
+    // log.info('getListResponseBody: $url, client: $client, headers: $headers');
+    // log.info('headers token length: ${headers["Authorization"]!.length}');
+    // log.info('headers token: ${headers["Authorization"]}');
 
     final response = await client.get(
         Uri.parse(url),
