@@ -42,10 +42,9 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
       SharedPreferences prefs = await SharedPreferences.getInstance();
       final String? token = prefs.getString('token');
       log.info('getListResponseBody after getNewToken: newToken: ${newToken.token}');
-      headers = {'Authorization': 'Bearer ${newToken.token}'};
+      headers = {'Authorization': 'Bearer $token'};
       log.info('headers token length by hand: ${"Bearer ${newToken.token}".length}');
-      log.info('headers token length: ${headers["Authorization"]!.length}');
-      log.info('headers token length by hand from prefs: ${"Bearer $token".length}');
+      // log.info('headers token from prefs: ${"Bearer $token".length}');
     }
 
     // List<String> args = ["page_size=5"];
