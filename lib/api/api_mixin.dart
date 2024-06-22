@@ -148,8 +148,13 @@ mixin CoreApiMixin {
 
     if (response.statusCode == 200) {
       log.info('refreshSlidingToken: 200 response, body: ${response.body}');
+      var decoded = json.decode(response.body);
       SlidingToken token = SlidingToken.fromJson(json.decode(response.body));
       // token.checkIsTokenExpired();
+      log.info("decoded: $decoded");
+      if (decoded['token'].length != token.token!.length) {
+        log.severe("refreshSlidingToken: tokens don't match");
+      }
 
       await prefs.setString('token', token.token!);
 
