@@ -88,6 +88,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     //print(response.body);
 
     String msg = "fetch: (${response.body})";
+    log.severe('error in fetch, url=$url');
 
     throw Exception(msg);
   }
