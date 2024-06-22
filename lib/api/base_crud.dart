@@ -76,6 +76,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
 
     log.info('getListResponseBody: $url, client: $client, headers: $headers');
     log.info('headers token length: ${headers["Authorization"]!.length}');
+    log.info('headers token: ${headers["Authorization"]}');
 
     final response = await client.get(
         Uri.parse(url),
