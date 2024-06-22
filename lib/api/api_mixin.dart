@@ -142,10 +142,12 @@ mixin CoreApiMixin {
     );
 
     if (response.statusCode == 401) {
+      log.severe('refreshSlidingToken: 401 response, body: ${response.body}');
       return null;
     }
 
     if (response.statusCode == 200) {
+      log.info('refreshSlidingToken: 200 response, body: ${response.body}');
       SlidingToken token = SlidingToken.fromJson(json.decode(response.body));
       // token.checkIsTokenExpired();
 
@@ -154,6 +156,7 @@ mixin CoreApiMixin {
       return token;
     }
 
+    log.severe('refreshSlidingToken: other response, code=${response.statusCode}, body: ${response.body}');
     return null;
   }
 
