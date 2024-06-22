@@ -39,7 +39,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     if (needsAuth) {
       SlidingToken newToken = await getNewToken(httpClientOverride: client);
       log.info('getListResponseBody after getNewToken: newToken: ${newToken.token}');
-      headers = getHeaders(newToken.token);
+      headers = {'Authorization': 'Bearer ${newToken.token}'};
     }
 
     // List<String> args = ["page_size=5"];
