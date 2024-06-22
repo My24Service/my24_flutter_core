@@ -38,6 +38,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     Map<String, String> headers = {};
     if (needsAuth) {
       SlidingToken newToken = await getNewToken(httpClientOverride: client);
+      log.info('getListResponseBody after getNewToken: newToken: ${newToken.token}');
       headers = getHeaders(newToken.token);
     }
 
