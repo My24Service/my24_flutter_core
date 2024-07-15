@@ -186,7 +186,7 @@ class PaginationInfo {
       int? end = start + pageSize! <= count!
           ? start + pageSize! - 1
           : count;
-      title = $trans("generic.pagination_more_pages", {
+      title = $trans("generic.pagination_more_pages", namedArgs: {
         "start": "$start",
         "end": "$end",
         "total": "$count",
@@ -195,7 +195,7 @@ class PaginationInfo {
     } else {
       int start = count! > 0 ? 1 : 0;
       int? end = count;
-      title = $trans("generic.pagination_one_page", {
+      title = $trans("generic.pagination_one_page", namedArgs: {
         "start": "$start",
         "end": "$end",
         "pageSize": "$pageSize",
