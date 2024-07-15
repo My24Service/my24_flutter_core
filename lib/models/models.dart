@@ -186,21 +186,24 @@ class PaginationInfo {
       int? end = start + pageSize! <= count!
           ? start + pageSize! - 1
           : count;
-      title = $trans("generic.pagination_more_pages", namedArgs: {
+      Map<String, String> namedArgs = {
         "start": "$start",
         "end": "$end",
         "total": "$count",
         "modelName": $trans("model_name")
-      });
+      };
+
+      title = $trans("generic.pagination_more_pages", namedArgs: namedArgs);
     } else {
       int start = count! > 0 ? 1 : 0;
       int? end = count;
-      title = $trans("generic.pagination_one_page", namedArgs: {
+      Map<String, String> namedArgs = {
         "start": "$start",
         "end": "$end",
         "pageSize": "$pageSize",
         "modelName": $trans("model_name")
-      });
+      };
+      title = $trans("generic.pagination_one_page", namedArgs: namedArgs);
     }
 
     return title;
