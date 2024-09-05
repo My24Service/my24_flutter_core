@@ -889,6 +889,26 @@ class CoreWidgets {
     return createDefaultElevatedButton(context, My24i18n.tr('generic.button_no_workorder'), () => {});
   }
 
+  Widget createViewWorkOrderPartnerButton(String? workorderPdfUrl, BuildContext context) {
+    if (workorderPdfUrl != null && workorderPdfUrl != '') {
+      return createDefaultElevatedButton(
+          context,
+          My24i18n.tr('generic.button_open_workorder_partner'),
+              () async {
+            Map<String, dynamic> openResult = await coreUtils.openDocument(workorderPdfUrl);
+            if (!openResult['result'] && context.mounted) {
+              createSnackBar(
+                  context,
+                  My24i18n.tr('generic.error_arg', namedArgs: {'error': openResult['message']})
+              );
+            }
+          }
+      );
+    }
+
+    return createDefaultElevatedButton(context, My24i18n.tr('generic.button_no_workorder'), () => {});
+  }
+
   GestureDetector wrapGestureDetector(BuildContext context, Widget child) {
     return GestureDetector(
         onTap: () {
