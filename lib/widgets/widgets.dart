@@ -75,7 +75,7 @@ class CoreWidgets {
         ),
       );
 
-  Widget buildOrderInfoCard(BuildContext context, order, {String? maintenanceContract}) {
+  Widget buildOrderInfoCard(BuildContext context, order, {String? maintenanceContract, bool? isCustomer=false}) {
     final String nameText = order.customerId != "" ? '${order.orderName} (${order.customerId})' : order.orderName;
     return Center(
         child: Column(
@@ -157,7 +157,7 @@ class CoreWidgets {
                 ...buildItemListKeyValueList(
                     "${My24i18n.tr('orders.info_contact')}",
                     "${order.orderContact ?? '-'}"),
-                if (order.customerRemarks != null && order.customerRemarks != '')
+                if (order.customerRemarks != null && order.customerRemarks != '' && (isCustomer == null || !isCustomer))
                   ...buildItemListKeyValueList(
                       "${My24i18n.tr('orders.info_order_customer_remarks')}",
                       "${order.customerRemarks}"),

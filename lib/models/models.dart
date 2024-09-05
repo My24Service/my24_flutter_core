@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
+import '../i18n.dart';
+
 final log = Logger('core.models');
 
 class Token {
@@ -186,21 +188,24 @@ class PaginationInfo {
       int? end = start + pageSize! <= count!
           ? start + pageSize! - 1
           : count;
-      title = $trans("generic.pagination_more_pages", {
+      Map<String, String> namedArgs = {
         "start": "$start",
         "end": "$end",
         "total": "$count",
         "modelName": $trans("model_name")
-      });
+      };
+
+      title = My24i18n.tr("generic.pagination_more_pages", namedArgs: namedArgs);
     } else {
       int start = count! > 0 ? 1 : 0;
       int? end = count;
-      title = $trans("generic.pagination_one_page", {
+      Map<String, String> namedArgs = {
         "start": "$start",
         "end": "$end",
         "pageSize": "$pageSize",
         "modelName": $trans("model_name")
-      });
+      };
+      title = My24i18n.tr("generic.pagination_one_page", namedArgs: namedArgs);
     }
 
     return title;

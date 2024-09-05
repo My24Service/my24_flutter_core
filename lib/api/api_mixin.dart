@@ -2,12 +2,15 @@ import 'dart:convert';
 import 'dart:io' show Platform;
 
 import 'package:geolocator/geolocator.dart';
+import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import '../models/models.dart';
+
+final log = Logger('core.api_mixin');
 
 mixin CoreApiMixin {
   Map<String, String> getHeaders(String? token) {
@@ -130,6 +133,8 @@ mixin CoreApiMixin {
     Map<String, String> allHeaders = {"Content-Type": "application/json; charset=UTF-8"};
     allHeaders.addAll(authHeaders);
 
+    log.info('refreshSlidingToken: $url, client: $httpClient, authHeaders: $authHeaders, token: $token');
+
     final response = await httpClient.post(
       Uri.parse(url),
       body: json.encode(<String, String?>{"token": token}),
@@ -137,6 +142,7 @@ mixin CoreApiMixin {
     );
 
     if (response.statusCode == 401) {
+      log.severe('refreshSlidingToken: 401 response, body: ${response.body}');
       return null;
     }
 
@@ -149,6 +155,7 @@ mixin CoreApiMixin {
       return token;
     }
 
+    log.severe('refreshSlidingToken: other response, code=${response.statusCode}, body: ${response.body}');
     return null;
   }
 

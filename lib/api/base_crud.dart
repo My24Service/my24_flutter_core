@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../api/api_mixin.dart';
 import '../models/models.dart';
@@ -67,7 +68,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
       url = "$url/";
     }
 
-    log.info('getListResponseBody: $url, client: $client');
+    log.info('getListResponseBody: $url, client: $client, headers: $headers');
 
     final response = await client.get(
         Uri.parse(url),
@@ -80,6 +81,7 @@ abstract class BaseCrud<T extends BaseModel, U extends BaseModelPagination> with
     //print(response.body);
 
     String msg = "fetch: (${response.body})";
+    log.severe('error in fetch, url=$url');
 
     throw Exception(msg);
   }
