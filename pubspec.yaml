@@ -15,8 +15,7 @@ dependencies:
   easy_localization: ^3.0.3
   cached_network_image: ^3.2.1
   flutter_cache_manager: ^3.3.1
-  firebase_messaging: ^14.7.12
-  firebase_core: ^2.25.1
+  firebase_messaging: ^15.1.2
   url_launcher: ^6.2.4
   logging: ^1.2.0
   geolocator: ^9.0.2
