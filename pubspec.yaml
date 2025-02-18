@@ -9,14 +9,15 @@ environment:
 
 dependencies:
   http: ^1.2.0
-  open_filex: ^4.3.4
+  open_filex: ^4.6.0
   path_provider: ^2.1.2
   shared_preferences: ^2.2.2
   easy_localization: ^3.0.3
   cached_network_image: ^3.2.1
   flutter_cache_manager: ^3.3.1
-  firebase_messaging: ^15.1.2
-  url_launcher: ^6.2.4
+  firebase_messaging: ^15.2.0
+  url_launcher: ^6.3.1
+  url_launcher_ios: ^6.3.1
   logging: ^1.2.0
   geolocator: ^9.0.2
   mockito: ^5.2.0
